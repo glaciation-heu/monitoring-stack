@@ -1,0 +1,4 @@
+1. Get the application URL by running these commands:
+2. get Grafana password for username admin
+
+kubectl get secret --namespace monitoring hiro-telemetry-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
