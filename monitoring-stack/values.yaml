@@ -10,7 +10,7 @@ prometheus:
 
   server:
     remoteWrite:
-      - url: "http://hiro-telemetry-influxdb.monitoring:8086/api/v1/prom/write?db=prometheus&u=admin&p=admin"
+      - url: "http://monitoring-stack-influxdb.monitoring:8086/api/v1/prom/write?db=prometheus&u=admin&p=admin"
 
     global:
       ## How frequently to scrape targets by default
@@ -36,12 +36,12 @@ grafana:
     datasources.yaml:
       apiVersion: 1
       datasources:
-      - name: Prometheus-hiro
-        type: prometheus
-        # this is clusterIP address of telemetry-prometheus-server
-        url: http://hiro-telemetry-prometheus-server:80
-        access: proxy
-        isDefault: true
+        - name: Prometheus-hiro
+          type: prometheus
+          # this is clusterIP address of monitoring-stack-prometheus-server
+          url: http://monitoring-stack-prometheus-server:80
+          access: proxy
+          isDefault: true
 
 
 influxdb:

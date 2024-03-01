@@ -22,18 +22,18 @@ this will install prometheus, grafana, influxdb helm chart.
 These charts are defined in Chart.yaml file
 
 ```console
-helm dependency update hiro-telemetry -n monitoring
+helm dependency update monitoring-stack -n monitoring
 ```
 
 install monitoring helm chart in namespace platform with release name hiro-telemetry
 
 ```console
-helm install hiro-telemetry ./hiro-telemetry -n monitoring
+helm install monitoring-stack ./hiro-telemetry -n monitoring
 ```
 to uninstall hiro-telemetry release
 
 ```console
-helm uninstall hiro-telemetry -n monitoring
+helm uninstall monitoring-stack -n monitoring
 ```
 
 ---
@@ -42,29 +42,29 @@ helm uninstall hiro-telemetry -n monitoring
 
 port forward prometheus server service
 ```console
-kubectl port-forward svc/hiro-telemetry-prometheus-server 8080:80 -n monitoring
+kubectl port-forward svc/monitoring-stack-prometheus-server 8080:80 -n monitoring
 ```
 
 port forward grafana service
 ```console
-kubectl port-forward service/hiro-telemetry-grafana 3000:80 -n monitoring
+kubectl port-forward service/monitoring-stack-grafana 3000:80 -n monitoring
 ```
 
 ```console
-kubectl port-forward deployment/telemetry-grafana 3000
+kubectl port-forward deployment/monitoring-stack-grafana 3000
 ```
 
 
 Get grafana password
  
 ```console
-kubectl get secret --namespace monitoring hiro-telemetry-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+kubectl get secret --namespace monitoring monitoring-stack-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
 Configure grafana DashBoard
 Use clusterIp service for connecting prometheus as data source in grafana
 
-http://hiro-telemetry-prometheus-server:80
+http://monitoring-stack-prometheus-server:80
 
 Dashboard id to be imported : 3662
 
@@ -72,14 +72,14 @@ Dashboard id to be imported : 3662
 
 ## TODO
 
-kubectl expose service telemetry-prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
+kubectl expose service monitoring-stack-prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
 
 minikube service prometheus-server-ext -n telemetry
 
-kubectl expose service telemetry-grafana --type=NodePort --target-port=3000 --name=telemetry-grafana-ext
+kubectl expose service monitoring-stack-grafana --type=NodePort --target-port=3000 --name=telemetry-grafana-ext
 minikube service telemetry-grafana-ext -n telemetry
 
-kubectl expose service telemetry-grafana --type=NodePort --target-port=3000 --name=telemetry-grafana-ext
+kubectl expose service monitoring-stack-grafana --type=NodePort --target-port=3000 --name=telemetry-grafana-ext
 
 
 dashboard id : 3662

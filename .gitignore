@@ -1,4 +1,4 @@
 *.log
 .idea
-/hiro-telemetry/Chart.lock
-/hiro-telemetry/charts/*
+/monitoring-stack/Chart.lock
+/monitoring-stack/charts/*
