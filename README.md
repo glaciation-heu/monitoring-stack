@@ -12,25 +12,23 @@ Once Helm is set up properly, add the repository as follows:
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 ```
 
-create monitoring namespace in k8 cluster
-```console
-kubectl create namespace monitoring
-```
 
-install dependency helm chart monitoring platform
+Install dependency helm chart monitoring platform
 this will install prometheus, grafana, influxdb helm chart.
 These charts are defined in Chart.yaml file
 
 ```console
-helm dependency update monitoring-stack -n monitoring
+helm dependency update monitoring-stack
 ```
 
-install monitoring helm chart in namespace platform with release name hiro-telemetry
+install monitoring-stack helm chart in namespace monitoring with release name monitoring-stack
+monitoring namespace will be created if not exists
 
 ```console
-helm install monitoring-stack ./hiro-telemetry -n monitoring
+helm install monitoring-stack ./monitoring-stack -n monitoring --create-namespace
 ```
-to uninstall hiro-telemetry release
+
+To uninstall monitoring-stack helm release
 
 ```console
 helm uninstall monitoring-stack -n monitoring
@@ -50,10 +48,6 @@ port forward grafana service
 kubectl port-forward service/monitoring-stack-grafana 3000:80 -n monitoring
 ```
 
-```console
-kubectl port-forward deployment/monitoring-stack-grafana 3000
-```
-
 
 Get grafana password
  
@@ -61,16 +55,23 @@ Get grafana password
 kubectl get secret --namespace monitoring monitoring-stack-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
 
-Configure grafana DashBoard
-Use clusterIp service for connecting prometheus as data source in grafana
+### Configure grafana DashBoard
+
+Prometheus datasource is automatically configured with monitoring-stack helm chart with clusterIp URL
 
 http://monitoring-stack-prometheus-server:80
+
 
 Dashboard id to be imported : 3662
 
 ---
 
 ## TODO
+
+port forward prometheus server service
+```console
+kubectl port-forward deployment/monitoring-stack-grafana 3000
+```
 
 kubectl expose service monitoring-stack-prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
 
