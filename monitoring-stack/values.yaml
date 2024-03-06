@@ -79,6 +79,16 @@ grafana:
           # this is clusterIP address of monitoring-stack-prometheus-server
           url: http://{{ tpl .Release.Name . }}-loki:3100
           access: proxy
+        - name: InfluxDB
+          type: influxdb
+          url: http://{{ tpl .Release.Name . }}-influxdb:8086
+          access: proxy
+          user: admin                    
+          secureJsonData:
+            password: admin
+          jsonData:
+            dbName: prometheus
+          
 
 influxdb:
   image:
