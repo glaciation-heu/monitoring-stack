@@ -10,7 +10,7 @@ prometheus:
 
   server:
     remoteWrite:
-      - url: "http://monitoring-stack-influxdb.monitoring:8086/api/v1/prom/write?db=prometheus&u=admin&p=admin"
+      - url: "http://{{ tpl .Release.Name . }}-influxdb:8086/api/v1/prom/write?db=prometheus&u=admin&p=admin"
 
     global:
       ## How frequently to scrape targets by default
@@ -32,12 +32,12 @@ prometheus:
     enabled: true
 
   extraScrapeConfigs: |
-    - job_name: 'node-exporter'
+    - job_name: 'prometheus-node-exporter'
       kubernetes_sd_configs:
         - role: endpoints
       relabel_configs:
       - source_labels: [__meta_kubernetes_endpoints_name]
-        regex: 'node-exporter'
+        regex: '.*prometheus-node-exporter'
         action: keep
     - job_name: 'idrac-exporter'
       params:
@@ -46,14 +46,14 @@ prometheus:
         - role: endpoints
       relabel_configs:
       - source_labels: [__meta_kubernetes_endpoints_name]
-        regex: 'idrac-exporter'
+        regex: '.*idrac-exporter'
         action: keep
-    - job_name: 'snmp-exporter-prometheus-snmp-exporter'
+    - job_name: 'prometheus-snmp-exporter'
       kubernetes_sd_configs:
         - role: endpoints
       relabel_configs:
       - source_labels: [__meta_kubernetes_endpoints_name]
-        regex: 'snmp-exporter-prometheus-snmp-exporter'
+        regex: '.*prometheus-snmp-exporter'
         action: keep
     - job_name: 'kepler'
       kubernetes_sd_configs:
@@ -71,7 +71,7 @@ grafana:
         - name: Prometheus
           type: prometheus
           # this is clusterIP address of monitoring-stack-prometheus-server
-          url: http://monitoring-stack-prometheus-server:80
+          url: http://{{ tpl .Release.Name . }}-prometheus-server:80
           access: proxy
           isDefault: true
         - name: Loki
@@ -120,10 +120,10 @@ loki-stack:
   promtail:
     enabled: false
 
+# prometheus-snmp-exporter:
+
+# prometheus-node-exporter:
+
 kepler:
   image:
     tag: latest
-
-prometheus-snmp-exporter:
-
-prometheus-node-exporter:
