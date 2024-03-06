@@ -68,13 +68,17 @@ grafana:
     datasources.yaml:
       apiVersion: 1
       datasources:
-        - name: Prometheus-hiro
+        - name: Prometheus
           type: prometheus
           # this is clusterIP address of monitoring-stack-prometheus-server
           url: http://monitoring-stack-prometheus-server:80
           access: proxy
           isDefault: true
-
+        - name: Loki
+          type: loki
+          # this is clusterIP address of monitoring-stack-prometheus-server
+          url: http://{{ tpl .Release.Name . }}-loki:3100
+          access: proxy
 
 influxdb:
   image:
@@ -89,6 +93,22 @@ influxdb:
       value: "admin"
     - name: INFLUXDB_ADMIN_PASSWORD
       value: "admin"
+
+fluentd-sidecar-injector:
+  useCertManager: false
+  sidecarInjector:
+    fluentbit:
+      aggregatorHost:	my-fluentd-aggregator.logging.svc
+      aggregatorPort:	24224
+      applicationLogDir:	/var/opt/app/logs
+      dockerImage:	ghcr.io/h3poteto/fluentd-sidecar-injector:latest
+      tagPrefix:	my-log
+
+loki-stack:
+  fluent-bit:
+    enabled: true
+  promtail:
+    enabled: false
 
 kepler:
   image:

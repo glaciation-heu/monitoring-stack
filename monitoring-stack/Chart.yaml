@@ -34,6 +34,12 @@ dependencies:
   - name: influxdb
     version: 4.12.5
     repository: https://helm.influxdata.com/
+  - name: fluentd-sidecar-injector
+    version: 0.4.3
+    repository: https://h3poteto.github.io/charts/stable
+  - name: loki-stack
+    version: 2.10.1
+    repository: https://grafana.github.io/helm-charts
   - name: prometheus-node-exporter
     version: 4.31.0
     repository: https://prometheus-community.github.io/helm-charts
