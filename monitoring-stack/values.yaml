@@ -93,3 +93,7 @@ influxdb:
 kepler:
   image:
     tag: latest
+
+prometheus-snmp-exporter:
+
+prometheus-node-exporter:
