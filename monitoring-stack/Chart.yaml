@@ -34,3 +34,6 @@ dependencies:
   - name: influxdb
     version: 4.12.5
     repository: https://helm.influxdata.com/
+  - name: kepler
+    version: 0.5.5
+    repository: https://sustainable-computing-io.github.io/kepler-helm-chart

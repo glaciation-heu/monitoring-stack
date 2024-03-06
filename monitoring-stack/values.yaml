@@ -31,6 +31,38 @@ prometheus:
     ## If false, alertmanager will not be installed
     enabled: true
 
+  extraScrapeConfigs: |
+    - job_name: 'node-exporter'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: 'node-exporter'
+        action: keep
+    - job_name: 'idrac-exporter'
+      params:
+        "target": ["10.14.2.7"]
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: 'idrac-exporter'
+        action: keep
+    - job_name: 'snmp-exporter-prometheus-snmp-exporter'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: 'snmp-exporter-prometheus-snmp-exporter'
+        action: keep
+    - job_name: 'kepler'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: 'kepler'
+        action: keep
+
 grafana:
   datasources:
     datasources.yaml:
@@ -58,3 +90,6 @@ influxdb:
     - name: INFLUXDB_ADMIN_PASSWORD
       value: "admin"
 
+kepler:
+  image:
+    tag: latest
