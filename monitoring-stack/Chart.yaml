@@ -28,24 +28,32 @@ dependencies:
   - name: prometheus
     version: 25.10.0
     repository: https://prometheus-community.github.io/helm-charts
+    condition: prometheus.enabled
   - name: grafana
     version: 7.0.0
     repository: https://grafana.github.io/helm-charts
+    condition: grafana.enabled
   - name: influxdb
     version: 4.12.5
     repository: https://helm.influxdata.com/
+    condition: influxdb.enabled
   - name: fluentd-sidecar-injector
     version: 0.4.3
     repository: https://h3poteto.github.io/charts/stable
+    condition: fluentd-sidecar-injector.enabled
   - name: loki-stack
     version: 2.10.1
     repository: https://grafana.github.io/helm-charts
+    condition: loki-stack.enabled
   - name: prometheus-node-exporter
     version: 4.31.0
     repository: https://prometheus-community.github.io/helm-charts
+    condition: prometheus-node-exporter.enabled
   - name: prometheus-snmp-exporter
     version: 5.1.0
     repository: https://prometheus-community.github.io/helm-charts
+    condition: prometheus-snmp-exporter.enabled
   - name: kepler
     version: 0.5.5
     repository: https://sustainable-computing-io.github.io/kepler-helm-chart
+    condition: kepler.enabled
