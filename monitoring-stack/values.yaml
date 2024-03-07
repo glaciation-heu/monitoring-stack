@@ -6,6 +6,7 @@ replicaCount: 1
 
 # Custom prometheus values
 prometheus:
+  enabled: true
   # Accessed by InfluxDB.
 
   server:
@@ -64,6 +65,7 @@ prometheus:
         action: keep
 
 grafana:
+  enabled: true
   datasources:
     datasources.yaml:
       apiVersion: 1
@@ -91,6 +93,7 @@ grafana:
           
 
 influxdb:
+  enabled: true
   image:
     repository: "influxdb"
     tag: "1.8" # InfluxDB 2.0 is not directly supported with prometheus
@@ -105,25 +108,30 @@ influxdb:
       value: "admin"
 
 fluentd-sidecar-injector:
+  enabled: true
   useCertManager: false
   sidecarInjector:
     fluentbit:
-      aggregatorHost:	my-fluentd-aggregator.logging.svc
-      aggregatorPort:	24224
+      aggregatorHost:	http://{{ tpl .Release.Name . }}-loki
+      aggregatorPort:	3100
       applicationLogDir:	/var/opt/app/logs
       dockerImage:	ghcr.io/h3poteto/fluentd-sidecar-injector:latest
       tagPrefix:	my-log
 
 loki-stack:
+  enabled: true
   fluent-bit:
     enabled: true
   promtail:
     enabled: false
 
-# prometheus-snmp-exporter:
+prometheus-snmp-exporter:
+  enabled: true
 
-# prometheus-node-exporter:
+prometheus-node-exporter:
+  enabled: true
 
 kepler:
+  enabled: true
   image:
     tag: latest
