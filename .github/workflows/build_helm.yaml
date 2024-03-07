@@ -1,7 +1,10 @@
 name: Build Helm Chart
 
 on:
-  workflow_call:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build_helm_chart:
