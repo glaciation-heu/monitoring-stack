@@ -1,10 +1,11 @@
 name: Build Helm Chart
 
 on:
-  push:
-    branches: [ master ]
+  branches:
+    - '**'
   pull_request:
-    branches: [ master ]
+    branches:
+    - '**'
 
 jobs:
   build_helm_chart:
@@ -15,8 +16,8 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Publish Helm charts
+    - name: Publish Dev Helm charts
       uses: stefanprodan/helm-gh-pages@master
       with:
         token: ${{ github.token }}
-        target_dir: "./monitoring-stack/"
+        target_dir: "./dev"
