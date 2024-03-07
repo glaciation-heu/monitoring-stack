@@ -1,0 +1,19 @@
+name: Build Helm Chart
+
+on:
+  workflow_call:
+
+jobs:
+  build_helm_chart:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Publish Helm charts
+      uses: stefanprodan/helm-gh-pages@master
+      with:
+        token: ${{ github.token }}
+        target_dir: "./monitoring-stack/"
