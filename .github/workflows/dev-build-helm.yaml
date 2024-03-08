@@ -23,4 +23,5 @@ jobs:
       uses: stefanprodan/helm-gh-pages@master
       with:
         token: ${{ github.token }}
+        charts_dir: "./monitoring-stack"
         target_dir: "./dev"
