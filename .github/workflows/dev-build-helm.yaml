@@ -6,8 +6,8 @@ on:
   pull_request:
     branches:
     - '**'
-  workflow_run:
-   workflows: ["build_helm_chart"]
+  workflow_dispatch:
+#   workflows: ["build_helm_chart"]
 
 jobs:
   build_helm_chart:
