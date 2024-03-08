@@ -73,6 +73,9 @@ prometheus:
 
 grafana:
   enabled: true
+  sidecar:
+    dashboards:
+      enabled: true
   datasources:
     datasources.yaml:
       apiVersion: 1
@@ -109,23 +112,16 @@ grafana:
         editable: true
         options:
           path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
-      - name: 'kepler'
+      - name: 'default'
         orgId: 1
-        folder: 'Kepler'
+        folder: 'default'
         type: file
         disableDeletion: true
         editable: true
         options:
-          path: /var/lib/grafana/dashboards/kepler
-      - name: 'node-exporter'
-        orgId: 1
-        folder: 'Node-Exporter'
-        type: file
-        disableDeletion: true
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/node-exporter
-
+          path: /var/lib/grafana/dashboards/default
+  dashboardsConfigMaps:
+    default: "grafana-dashboards"
   dashboards:
     grafana-dashboards-kubernetes:
       k8s-system-api-server:
@@ -146,12 +142,6 @@ grafana:
       k8s-views-pods:
         url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
         token: ''            
-    kepler:
-      kepler-exporter:
-        file: dashboards/kepler-exporter.json
-    node-exporter:
-      node-exporter:
-        file: dashboards/node-exporter-full.json          
 
 influxdb:
   enabled: true
