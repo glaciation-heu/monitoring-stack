@@ -3,7 +3,7 @@ entries:
   monitoring-stack:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-03-08T10:43:54.337468265Z"
+    created: "2024-03-08T10:44:12.070378633Z"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -42,10 +42,10 @@ entries:
       repository: https://nvidia.github.io/gpu-monitoring-tools/helm-charts
       version: 2.4.0
     description: A Helm chart for Kubernetes
-    digest: 33341c566b230a32d7e5cfda14d9bebe4f0c4b29c09ad9a0ef160079eb4d4e11
+    digest: 4bcef8a324cc3eb0a6210e08c21f9db4f2fd606f417e793c5297ca558a6b04d8
     name: monitoring-stack
     type: application
     urls:
     - https://HIRO-MicroDataCenters-BV.github.io/monitoring-stack/dev/monitoring-stack-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-08T10:43:54.310997743Z"
+generated: "2024-03-08T10:44:12.042861776Z"
