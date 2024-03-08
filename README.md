@@ -2,26 +2,28 @@
 
 # Build
 
-Pre-commit hook
-[install the pre-commit binary](https://pre-commit.com/#install). Then run:
-```console
-pre-commit install
-pre-commit install-hooks
-```
+* Install [helm-docs](https://github.com/norwoodj/helm-docs).
 
-Install [Helm](https://helm.sh). Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
+* Pre-commit hook
+  [install the pre-commit binary](https://pre-commit.com/#install). Then run:
+  ```console
+  pre-commit install
+  pre-commit install-hooks
+  ```
 
-Install dependency helm chart monitoring platform
-this will install prometheus, grafana, influxdb helm chart.
-These charts are defined in Chart.yaml file
+* Install [Helm](https://helm.sh). Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 
-```console
-helm dependency update ./monitoring-stack
-```
+  Install dependency helm chart monitoring platform
+  this will install prometheus, grafana, influxdb helm chart.
+  These charts are defined in Chart.yaml file
 
-```console
-helm dependency build ./monitoring-stack
-```
+  ```console
+  helm dependency update ./monitoring-stack
+  ```
+
+  ```console
+  helm dependency build ./monitoring-stack
+  ```
 
 ## Usage
 [Helm](https://helm.sh) must be installed to use Monitoring Platform.
@@ -29,7 +31,7 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 
 Add helm repo:
 ```console
-    helm repo add monitoring-charts https://hiro-microdatacenters-bv.github.io/monitoring-stack/dev
+    helm repo add monitoring-charts https://hiro-microdatacenters-bv.github.io/monitoring-stack/helm-charts
 ```
 
 Get values yaml file and customize it for your environment:
