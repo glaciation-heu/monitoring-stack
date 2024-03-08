@@ -3,14 +3,11 @@ name: Build Helm Chart
 on:
   push:
     branches:
-      - '**'
-  pull_request:
-    branches:
-      - '**'
+      - 'main'
   workflow_dispatch:
 
 jobs:
-  build_helm_chart:
+  build_release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -20,9 +17,9 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Publish Dev Helm charts
+    - name: Publish Release Helm charts
       uses: stefanprodan/helm-gh-pages@master
       with:
         token: ${{ github.token }}
         charts_dir: "./"
-        target_dir: "./dev"
+        target_dir: "./helm-charts"
