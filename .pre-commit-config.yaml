@@ -7,3 +7,9 @@ repos:
         args:
           # Make the tool search for charts only under the `charts` directory
           - --chart-search-root=.
+
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.12
+    hooks:
+    - id: helmlint
+    - id: shellcheck
