@@ -56,6 +56,13 @@ prometheus:
       - source_labels: [__meta_kubernetes_endpoints_name]
         regex: '.*prometheus-snmp-exporter'
         action: keep
+    - job_name: 'dcgm-exporter'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: '.*dcgm-exporter'
+        action: keep
     - job_name: 'kepler'
       kubernetes_sd_configs:
         - role: endpoints
@@ -112,11 +119,11 @@ fluentd-sidecar-injector:
   useCertManager: false
   sidecarInjector:
     fluentbit:
-      aggregatorHost:	http://{{ tpl .Release.Name . }}-loki
+      aggregatorHost:	"{{ tpl .Release.Name . }}-loki"
       aggregatorPort:	3100
       applicationLogDir:	/var/opt/app/logs
       dockerImage:	ghcr.io/h3poteto/fluentd-sidecar-injector:latest
-      tagPrefix:	my-log
+      tagPrefix:	sidecar-log
 
 loki-stack:
   enabled: true
@@ -135,3 +142,7 @@ kepler:
   enabled: true
   image:
     tag: latest
+
+dcgm-exporter:
+  # requires NVIDIA DCGM interface, will fail if not available
+  enabled: false
