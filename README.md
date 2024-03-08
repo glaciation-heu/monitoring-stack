@@ -3,7 +3,7 @@
 # Build
 
 Pre-commit hook
-If you want to automatically generate README.md files with a pre-commit hook, make sure you install the pre-commit binary, and add a .pre-commit-config.yaml file to your project. Then run:
+[install the pre-commit binary](https://pre-commit.com/#install). Then run:
 ```console
 pre-commit install
 pre-commit install-hooks
