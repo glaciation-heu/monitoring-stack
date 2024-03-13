@@ -190,3 +190,6 @@ kepler:
 dcgm-exporter:
   # requires NVIDIA DCGM interface, will fail if not available
   enabled: false
+
+idrac-exporter:
+  enabled: false

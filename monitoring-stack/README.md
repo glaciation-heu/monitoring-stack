@@ -12,6 +12,7 @@ A Helm chart for Kubernetes
 | https://grafana.github.io/helm-charts | loki-stack | 2.10.1 |
 | https://h3poteto.github.io/charts/stable | fluentd-sidecar-injector | 0.4.3 |
 | https://helm.influxdata.com/ | influxdb | 4.12.5 |
+| https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts | idrac-exporter | 0.1.0 |
 | https://nvidia.github.io/gpu-monitoring-tools/helm-charts | dcgm-exporter | 2.4.0 |
 | https://prometheus-community.github.io/helm-charts | prometheus | 25.10.0 |
 | https://prometheus-community.github.io/helm-charts | prometheus-node-exporter | 4.31.0 |
@@ -77,6 +78,7 @@ A Helm chart for Kubernetes
 | grafana.datasources."datasources.yaml".datasources[2].user | string | `"admin"` |  |
 | grafana.enabled | bool | `true` |  |
 | grafana.sidecar.dashboards.enabled | bool | `true` |  |
+| idrac-exporter.enabled | bool | `false` |  |
 | influxdb.enabled | bool | `true` |  |
 | influxdb.env[0].name | string | `"INFLUXDB_DB"` |  |
 | influxdb.env[0].value | string | `"prometheus"` |  |
