@@ -2,8 +2,7 @@ name: Build Helm Chart
 
 on:
   push:
-    branches:
-      - 'main'
+    tags: '*'
   workflow_dispatch:
 
 jobs:
@@ -11,7 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    steps:
+    steps:    
+    - name: Set version
+      id: version
+      run: |
+        echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+        echo "${GITHUB_REF#refs/*/}"
+
     - name: Checkout
       uses: actions/checkout@v4
       with:
@@ -23,3 +28,4 @@ jobs:
         token: ${{ github.token }}
         charts_dir: "./"
         target_dir: "./helm-charts"
+        chart_version: ${{ steps.version.outputs.RELEASE_VERSION }}
