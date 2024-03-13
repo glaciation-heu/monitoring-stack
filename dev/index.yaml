@@ -3,7 +3,7 @@ entries:
   monitoring-stack:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-03-08T16:41:31.211326747Z"
+    created: "2024-03-13T12:41:44.521626022Z"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -41,11 +41,15 @@ entries:
       name: dcgm-exporter
       repository: https://nvidia.github.io/gpu-monitoring-tools/helm-charts
       version: 2.4.0
+    - condition: idrac-exporter.enabled
+      name: idrac-exporter
+      repository: https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts
+      version: 0.1.0
     description: A Helm chart for Kubernetes
-    digest: e67258a8bc3b5eafc07f8b91ab4dc5a3aeb38d168bf69467dcda7f60b1b108fb
+    digest: be2258eddcf7b5d025a37008c6ab42118ea302a72fb8a707548accc0db9e30de
     name: monitoring-stack
     type: application
     urls:
     - https://HIRO-MicroDataCenters-BV.github.io/monitoring-stack/dev/monitoring-stack-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-08T16:41:31.183206588Z"
+generated: "2024-03-13T12:41:44.492823889Z"
