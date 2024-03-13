@@ -6,11 +6,12 @@ replicaCount: 1
 
 # Custom prometheus values
 prometheus:
+  enabled: true
   # Accessed by InfluxDB.
 
   server:
     remoteWrite:
-      - url: "http://monitoring-stack-influxdb.monitoring:8086/api/v1/prom/write?db=prometheus&u=admin&p=admin"
+      - url: "http://{{ tpl .Release.Name . }}-influxdb:8086/api/v1/prom/write?db=prometheus&u=admin&p=admin"
 
     global:
       ## How frequently to scrape targets by default
@@ -31,20 +32,119 @@ prometheus:
     ## If false, alertmanager will not be installed
     enabled: true
 
+  extraScrapeConfigs: |
+    - job_name: 'prometheus-node-exporter'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: '.*prometheus-node-exporter'
+        action: keep
+    - job_name: 'idrac-exporter'
+      params:
+        "target": ["10.14.2.7"]
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: '.*idrac-exporter'
+        action: keep
+    - job_name: 'prometheus-snmp-exporter'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: '.*prometheus-snmp-exporter'
+        action: keep
+    - job_name: 'dcgm-exporter'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: '.*dcgm-exporter'
+        action: keep
+    - job_name: 'kepler'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: 'kepler'
+        action: keep
+
 grafana:
+  enabled: true
+  sidecar:
+    dashboards:
+      enabled: true
   datasources:
     datasources.yaml:
       apiVersion: 1
       datasources:
-        - name: Prometheus-hiro
+        - name: Prometheus
           type: prometheus
           # this is clusterIP address of monitoring-stack-prometheus-server
-          url: http://monitoring-stack-prometheus-server:80
+          url: http://{{ tpl .Release.Name . }}-prometheus-server:80
           access: proxy
           isDefault: true
-
+        - name: Loki
+          type: loki
+          # this is clusterIP address of monitoring-stack-prometheus-server
+          url: http://{{ tpl .Release.Name . }}-loki:3100
+          access: proxy
+        - name: InfluxDB
+          type: influxdb
+          url: http://{{ tpl .Release.Name . }}-influxdb:8086
+          access: proxy
+          user: admin                    
+          secureJsonData:
+            password: admin
+          jsonData:
+            dbName: prometheus
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'grafana-dashboards-kubernetes'
+        orgId: 1
+        folder: 'Kubernetes'
+        type: file
+        disableDeletion: true
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
+      - name: 'default'
+        orgId: 1
+        folder: 'default'
+        type: file
+        disableDeletion: true
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+  dashboardsConfigMaps:
+    default: "grafana-dashboards"
+  dashboards:
+    grafana-dashboards-kubernetes:
+      k8s-system-api-server:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
+        token: ''
+      k8s-system-coredns:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
+        token: ''
+      k8s-views-global:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+        token: ''
+      k8s-views-namespaces:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+        token: ''
+      k8s-views-nodes:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
+        token: ''
+      k8s-views-pods:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
+        token: ''            
 
 influxdb:
+  enabled: true
   image:
     repository: "influxdb"
     tag: "1.8" # InfluxDB 2.0 is not directly supported with prometheus
@@ -58,3 +158,38 @@ influxdb:
     - name: INFLUXDB_ADMIN_PASSWORD
       value: "admin"
 
+fluentd-sidecar-injector:
+  enabled: true
+  useCertManager: false
+  sidecarInjector:
+    fluentbit:
+      aggregatorHost:	"{{ tpl .Release.Name . }}-loki"
+      aggregatorPort:	3100
+      applicationLogDir:	/var/opt/app/logs
+      dockerImage:	ghcr.io/h3poteto/fluentd-sidecar-injector:latest
+      tagPrefix:	sidecar-log
+
+loki-stack:
+  enabled: true
+  fluent-bit:
+    enabled: true
+  promtail:
+    enabled: false
+
+prometheus-snmp-exporter:
+  enabled: true
+
+prometheus-node-exporter:
+  enabled: true
+
+kepler:
+  enabled: false
+  image:
+    tag: latest
+
+dcgm-exporter:
+  # requires NVIDIA DCGM interface, will fail if not available
+  enabled: false
+
+idrac-exporter:
+  enabled: false

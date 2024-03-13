@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test
+  labels:
+    app: nginx-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-test
+  template:
+    metadata:
+      annotations:
+        fluentd-sidecar-injector.h3poteto.dev/injection: 'enabled'
+        fluentd-sidecar-injector.h3poteto.dev/collector: 'fluent-bit'
+        fluentd-sidecar-injector.h3poteto.dev/docker-image: 'ghcr.io/hiro-microdatacenters-bv/fluentbit-loki:master'
+        fluentd-sidecar-injector.h3poteto.dev/application-log-dir: '/var/log/nginx'
+        fluentd-sidecar-injector.h3poteto.dev/aggregator-host: '<release>-loki'
+        fluentd-sidecar-injector.h3poteto.dev/aggregator-port: '3100'
+        fluentd-sidecar-injector.h3poteto.dev/tag-prefix: 'nginx-test-1'
+      labels:
+        app: nginx-test
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest

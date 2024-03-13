@@ -21,16 +21,47 @@ version: 0.1.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "1.16.0"
+appVersion: "0.1.0"
 
 
 dependencies:
   - name: prometheus
     version: 25.10.0
     repository: https://prometheus-community.github.io/helm-charts
+    condition: prometheus.enabled
   - name: grafana
     version: 7.0.0
     repository: https://grafana.github.io/helm-charts
+    condition: grafana.enabled
   - name: influxdb
     version: 4.12.5
     repository: https://helm.influxdata.com/
+    condition: influxdb.enabled
+  - name: fluentd-sidecar-injector
+    version: 0.4.3
+    repository: https://h3poteto.github.io/charts/stable
+    condition: fluentd-sidecar-injector.enabled
+  - name: loki-stack
+    version: 2.10.1
+    repository: https://grafana.github.io/helm-charts
+    condition: loki-stack.enabled
+  - name: prometheus-node-exporter
+    version: 4.31.0
+    repository: https://prometheus-community.github.io/helm-charts
+    condition: prometheus-node-exporter.enabled
+  - name: prometheus-snmp-exporter
+    version: 5.1.0
+    repository: https://prometheus-community.github.io/helm-charts
+    condition: prometheus-snmp-exporter.enabled
+  - name: kepler
+    version: 0.5.5
+    repository: https://sustainable-computing-io.github.io/kepler-helm-chart
+    condition: kepler.enabled
+  - name: dcgm-exporter
+    version: 2.4.0
+    repository: https://nvidia.github.io/gpu-monitoring-tools/helm-charts
+    condition: dcgm-exporter.enabled
+  - name: idrac-exporter
+    version: 0.1.0
+    repository: https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts
+    condition: idrac-exporter.enabled
