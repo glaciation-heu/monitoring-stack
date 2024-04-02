@@ -45,10 +45,6 @@ dependencies:
     version: 2.10.1
     repository: https://grafana.github.io/helm-charts
     condition: loki-stack.enabled
-  - name: prometheus-node-exporter
-    version: 4.31.0
-    repository: https://prometheus-community.github.io/helm-charts
-    condition: prometheus-node-exporter.enabled
   - name: prometheus-snmp-exporter
     version: 5.1.0
     repository: https://prometheus-community.github.io/helm-charts
