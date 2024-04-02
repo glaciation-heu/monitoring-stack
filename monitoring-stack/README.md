@@ -15,7 +15,6 @@ A Helm chart for Kubernetes
 | https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts | idrac-exporter | 0.1.0 |
 | https://nvidia.github.io/gpu-monitoring-tools/helm-charts | dcgm-exporter | 2.4.0 |
 | https://prometheus-community.github.io/helm-charts | prometheus | 25.10.0 |
-| https://prometheus-community.github.io/helm-charts | prometheus-node-exporter | 4.31.0 |
 | https://prometheus-community.github.io/helm-charts | prometheus-snmp-exporter | 5.1.0 |
 | https://sustainable-computing-io.github.io/kepler-helm-chart | kepler | 0.5.5 |
 
@@ -94,12 +93,12 @@ A Helm chart for Kubernetes
 | loki-stack.enabled | bool | `true` |  |
 | loki-stack.fluent-bit.enabled | bool | `true` |  |
 | loki-stack.promtail.enabled | bool | `false` |  |
-| prometheus-node-exporter.enabled | bool | `true` |  |
 | prometheus-snmp-exporter.enabled | bool | `true` |  |
 | prometheus.alertmanager.enabled | bool | `true` |  |
 | prometheus.enabled | bool | `true` |  |
 | prometheus.extraScrapeConfigs | string | `"- job_name: 'prometheus-node-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*prometheus-node-exporter'\n    action: keep\n- job_name: 'idrac-exporter'\n  params:\n    \"target\": [\"10.14.2.7\"]\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*idrac-exporter'\n    action: keep\n- job_name: 'prometheus-snmp-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*prometheus-snmp-exporter'\n    action: keep\n- job_name: 'dcgm-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*dcgm-exporter'\n    action: keep\n- job_name: 'kepler'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: 'kepler'\n    action: keep\n"` |  |
 | prometheus.kube-state-metrics.enabled | bool | `true` |  |
+| prometheus.prometheus-node-exporter.enabled | bool | `true` |  |
 | prometheus.server.global.evaluation_interval | string | `"1m"` |  |
 | prometheus.server.global.scrape_interval | string | `"1m"` |  |
 | prometheus.server.global.scrape_timeout | string | `"11s"` |  |

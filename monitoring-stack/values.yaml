@@ -32,6 +32,9 @@ prometheus:
     ## If false, alertmanager will not be installed
     enabled: true
 
+  prometheus-node-exporter:
+    enabled: true
+
   extraScrapeConfigs: |
     - job_name: 'prometheus-node-exporter'
       kubernetes_sd_configs:
@@ -177,9 +180,6 @@ loki-stack:
     enabled: false
 
 prometheus-snmp-exporter:
-  enabled: true
-
-prometheus-node-exporter:
   enabled: true
 
 kepler:
