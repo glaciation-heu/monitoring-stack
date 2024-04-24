@@ -13,6 +13,22 @@ prometheus:
     remoteWrite:
       - url: "http://{{ tpl .Release.Name . }}-influxdb:8086/api/v1/prom/write?db=prometheus&u=admin&p=admin"
 
+    resources:
+      limits:
+        cpu: 1
+        memory: 2Gi
+      requests:
+        cpu: 1
+        memory: 1Gi
+    service:
+      retention: "15d"
+      ## Prometheus' data retention size. Supported units: B, KB, MB, GB, TB, PB, EB.
+      ##
+      retentionSize: "30Gb"
+
+    persistentVolume:
+      size: 32Gi
+
     global:
       ## How frequently to scrape targets by default
       ##
@@ -79,6 +95,15 @@ grafana:
   sidecar:
     dashboards:
       enabled: true
+  # adminPassword: donkeyhot
+  resources:
+   limits:
+     cpu: 1
+     memory: 512Mi
+   requests:
+     cpu: 1
+     memory: 256Mi
+
   datasources:
     datasources.yaml:
       apiVersion: 1
@@ -152,6 +177,15 @@ influxdb:
     repository: "influxdb"
     tag: "1.8" # InfluxDB 2.0 is not directly supported with prometheus
     pullPolicy: IfNotPresent
+  persistence:
+    size: 32Gi
+  resources:
+   requests:
+     memory: 8Gi
+     cpu: 3
+   limits:
+     memory: 12Gi
+     cpu: 4
 
   env:
     - name: INFLUXDB_DB
@@ -174,6 +208,18 @@ fluentd-sidecar-injector:
 
 loki-stack:
   enabled: true
+  loki:
+    resources:
+      limits:
+        cpu: 1
+        memory: 2Gi
+      requests:
+        cpu: 1
+        memory: 1Gi
+    persistence:
+      enabled: true
+      size: 32Gi
+
   fluent-bit:
     enabled: true
   promtail:
