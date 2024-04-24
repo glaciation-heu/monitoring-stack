@@ -76,6 +76,10 @@ A Helm chart for Kubernetes
 | grafana.datasources."datasources.yaml".datasources[2].url | string | `"http://{{ tpl .Release.Name . }}-influxdb:8086"` |  |
 | grafana.datasources."datasources.yaml".datasources[2].user | string | `"admin"` |  |
 | grafana.enabled | bool | `true` |  |
+| grafana.resources.limits.cpu | int | `1` |  |
+| grafana.resources.limits.memory | string | `"512Mi"` |  |
+| grafana.resources.requests.cpu | int | `1` |  |
+| grafana.resources.requests.memory | string | `"256Mi"` |  |
 | grafana.sidecar.dashboards.enabled | bool | `true` |  |
 | idrac-exporter.enabled | bool | `false` |  |
 | influxdb.enabled | bool | `true` |  |
@@ -88,10 +92,21 @@ A Helm chart for Kubernetes
 | influxdb.image.pullPolicy | string | `"IfNotPresent"` |  |
 | influxdb.image.repository | string | `"influxdb"` |  |
 | influxdb.image.tag | string | `"1.8"` |  |
+| influxdb.persistence.size | string | `"32Gi"` |  |
+| influxdb.resources.limits.cpu | int | `4` |  |
+| influxdb.resources.limits.memory | string | `"12Gi"` |  |
+| influxdb.resources.requests.cpu | int | `3` |  |
+| influxdb.resources.requests.memory | string | `"8Gi"` |  |
 | kepler.enabled | bool | `false` |  |
 | kepler.image.tag | string | `"latest"` |  |
 | loki-stack.enabled | bool | `true` |  |
 | loki-stack.fluent-bit.enabled | bool | `true` |  |
+| loki-stack.loki.persistence.enabled | bool | `true` |  |
+| loki-stack.loki.persistence.size | string | `"32Gi"` |  |
+| loki-stack.loki.resources.limits.cpu | int | `1` |  |
+| loki-stack.loki.resources.limits.memory | string | `"2Gi"` |  |
+| loki-stack.loki.resources.requests.cpu | int | `1` |  |
+| loki-stack.loki.resources.requests.memory | string | `"1Gi"` |  |
 | loki-stack.promtail.enabled | bool | `false` |  |
 | prometheus-snmp-exporter.enabled | bool | `true` |  |
 | prometheus.alertmanager.enabled | bool | `true` |  |
@@ -102,7 +117,14 @@ A Helm chart for Kubernetes
 | prometheus.server.global.evaluation_interval | string | `"1m"` |  |
 | prometheus.server.global.scrape_interval | string | `"1m"` |  |
 | prometheus.server.global.scrape_timeout | string | `"11s"` |  |
+| prometheus.server.persistentVolume.size | string | `"32Gi"` |  |
 | prometheus.server.remoteWrite[0].url | string | `"http://{{ tpl .Release.Name . }}-influxdb:8086/api/v1/prom/write?db=prometheus&u=admin&p=admin"` |  |
+| prometheus.server.resources.limits.cpu | int | `1` |  |
+| prometheus.server.resources.limits.memory | string | `"2Gi"` |  |
+| prometheus.server.resources.requests.cpu | int | `1` |  |
+| prometheus.server.resources.requests.memory | string | `"1Gi"` |  |
+| prometheus.server.service.retention | string | `"15d"` |  |
+| prometheus.server.service.retentionSize | string | `"30Gb"` |  |
 | replicaCount | int | `1` |  |
 
 ----------------------------------------------
