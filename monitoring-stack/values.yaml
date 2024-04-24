@@ -79,6 +79,7 @@ grafana:
   sidecar:
     dashboards:
       enabled: true
+  #adminPassword: 
   datasources:
     datasources.yaml:
       apiVersion: 1
