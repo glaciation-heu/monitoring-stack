@@ -105,7 +105,7 @@ grafana:
   sidecar:
     dashboards:
       enabled: true
-  # adminPassword: 
+  adminPassword: admin
   resources:
    limits:
      cpu: 1
@@ -254,6 +254,28 @@ loki-stack:
 
 prometheus-snmp-exporter:
   enabled: true
+
+kubernetes-event-exporter:
+  enabled: true
+  config:
+    route:
+      # Main route
+      routes:
+        # This route allows dumping all events because it has no fields to match and no drop rules.
+        - match:
+            - receiver: dump
+        - match:
+            - kind: "Pod|Deployment|ReplicaSet|StatefullSet|PVC|Node"
+              receiver: "loki"  
+    receivers:
+    - name: "dump"
+      stdout:
+        deDot: true
+    - name: "loki"
+      loki:
+        streamLabels:
+          stream: kube-events
+        url: http://{{ tpl .Release.Name . }}-loki:3100/loki/api/v1/push
 
 kepler:
   enabled: false
