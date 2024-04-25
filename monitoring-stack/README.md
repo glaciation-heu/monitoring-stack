@@ -84,6 +84,8 @@ A Helm chart for Kubernetes
 | grafana.livenessProbe.failureThreshold | int | `10` |  |
 | grafana.livenessProbe.initialDelaySeconds | int | `120` |  |
 | grafana.livenessProbe.timeoutSeconds | int | `60` |  |
+| grafana.persistence.enabled | bool | `true` |  |
+| grafana.persistence.size | string | `"10Gi"` |  |
 | grafana.resources.limits.cpu | int | `1` |  |
 | grafana.resources.limits.memory | string | `"512Mi"` |  |
 | grafana.resources.requests.cpu | int | `1` |  |
