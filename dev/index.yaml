@@ -3,7 +3,7 @@ entries:
   monitoring-stack:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-04-25T10:11:42.021579459Z"
+    created: "2024-04-25T15:19:17.375976475Z"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -25,6 +25,10 @@ entries:
       name: loki-stack
       repository: https://grafana.github.io/helm-charts
       version: 2.10.1
+    - condition: kubernetes-event-exporter.enabled
+      name: kubernetes-event-exporter
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 3.0.3
     - condition: prometheus-snmp-exporter.enabled
       name: prometheus-snmp-exporter
       repository: https://prometheus-community.github.io/helm-charts
@@ -42,10 +46,10 @@ entries:
       repository: https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts
       version: 0.1.0
     description: A Helm chart for Kubernetes
-    digest: ead23bbd16413c85742ec6aaa77d5b3c4ac0fd0dc45b945762c7176e343ed110
+    digest: 8b79fda0f79fc256c984b6b30c4d73c4925e514ba466b11a6f28bd1a56406b86
     name: monitoring-stack
     type: application
     urls:
     - https://HIRO-MicroDataCenters-BV.github.io/monitoring-stack/dev/monitoring-stack-0.1.0.tgz
     version: 0.1.0
-generated: "2024-04-25T10:11:41.994384164Z"
+generated: "2024-04-25T15:19:17.345859358Z"
