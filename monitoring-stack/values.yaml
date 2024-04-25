@@ -47,6 +47,16 @@ prometheus:
   alertmanager:
     ## If false, alertmanager will not be installed
     enabled: true
+    persistence:
+      size: 1Gi
+    resources:
+      limits:
+        cpu: 300m
+        memory: 128Mi
+      requests:
+        cpu: 300m
+        memory: 128Mi
+
 
   prometheus-node-exporter:
     enabled: true
@@ -95,7 +105,7 @@ grafana:
   sidecar:
     dashboards:
       enabled: true
-  # adminPassword: donkeyhot
+  # adminPassword: 
   resources:
    limits:
      cpu: 1
@@ -103,6 +113,14 @@ grafana:
    requests:
      cpu: 1
      memory: 256Mi
+  livenessProbe:
+    initialDelaySeconds: 120
+    timeoutSeconds: 60
+    failureThreshold: 10
+  persistence:
+    enabled: true
+    # storageClassName: default
+    size: 10Gi
 
   datasources:
     datasources.yaml:
@@ -128,6 +146,12 @@ grafana:
             password: admin
           jsonData:
             dbName: prometheus
+        - name: Alertmanager
+          type: alertmanager
+          access: proxy
+          url: http://{{ tpl .Release.Name . }}-alertmanager:9093
+          jsonData:
+            implementation: prometheus
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -181,10 +205,10 @@ influxdb:
     size: 32Gi
   resources:
    requests:
-     memory: 8Gi
+     memory: 4Gi
      cpu: 3
    limits:
-     memory: 12Gi
+     memory: 4Gi
      cpu: 4
 
   env:
@@ -208,6 +232,9 @@ fluentd-sidecar-injector:
 
 loki-stack:
   enabled: true
+  table_manager:
+    retention_deletes_enabled: true
+    retention_period: 336h
   loki:
     resources:
       limits:
