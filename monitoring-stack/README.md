@@ -75,6 +75,11 @@ A Helm chart for Kubernetes
 | grafana.datasources."datasources.yaml".datasources[2].type | string | `"influxdb"` |  |
 | grafana.datasources."datasources.yaml".datasources[2].url | string | `"http://{{ tpl .Release.Name . }}-influxdb:8086"` |  |
 | grafana.datasources."datasources.yaml".datasources[2].user | string | `"admin"` |  |
+| grafana.datasources."datasources.yaml".datasources[3].access | string | `"proxy"` |  |
+| grafana.datasources."datasources.yaml".datasources[3].jsonData.implementation | string | `"prometheus"` |  |
+| grafana.datasources."datasources.yaml".datasources[3].name | string | `"Alertmanager"` |  |
+| grafana.datasources."datasources.yaml".datasources[3].type | string | `"alertmanager"` |  |
+| grafana.datasources."datasources.yaml".datasources[3].url | string | `"http://{{ tpl .Release.Name . }}-alertmanager:9093"` |  |
 | grafana.enabled | bool | `true` |  |
 | grafana.livenessProbe.failureThreshold | int | `10` |  |
 | grafana.livenessProbe.initialDelaySeconds | int | `120` |  |
@@ -97,9 +102,9 @@ A Helm chart for Kubernetes
 | influxdb.image.tag | string | `"1.8"` |  |
 | influxdb.persistence.size | string | `"32Gi"` |  |
 | influxdb.resources.limits.cpu | int | `4` |  |
-| influxdb.resources.limits.memory | string | `"12Gi"` |  |
+| influxdb.resources.limits.memory | string | `"4Gi"` |  |
 | influxdb.resources.requests.cpu | int | `3` |  |
-| influxdb.resources.requests.memory | string | `"8Gi"` |  |
+| influxdb.resources.requests.memory | string | `"4Gi"` |  |
 | kepler.enabled | bool | `false` |  |
 | kepler.image.tag | string | `"latest"` |  |
 | loki-stack.enabled | bool | `true` |  |

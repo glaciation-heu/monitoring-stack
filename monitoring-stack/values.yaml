@@ -142,6 +142,12 @@ grafana:
             password: admin
           jsonData:
             dbName: prometheus
+        - name: Alertmanager
+          type: alertmanager
+          access: proxy
+          url: http://{{ tpl .Release.Name . }}-alertmanager:9093
+          jsonData:
+            implementation: prometheus
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -195,10 +201,10 @@ influxdb:
     size: 32Gi
   resources:
    requests:
-     memory: 8Gi
+     memory: 4Gi
      cpu: 3
    limits:
-     memory: 12Gi
+     memory: 4Gi
      cpu: 4
 
   env:
