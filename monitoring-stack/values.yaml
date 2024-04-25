@@ -208,6 +208,9 @@ fluentd-sidecar-injector:
 
 loki-stack:
   enabled: true
+  table_manager:
+    retention_deletes_enabled: true
+    retention_period: 336h
   loki:
     resources:
       limits:

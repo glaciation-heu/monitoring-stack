@@ -108,6 +108,8 @@ A Helm chart for Kubernetes
 | loki-stack.loki.resources.requests.cpu | int | `1` |  |
 | loki-stack.loki.resources.requests.memory | string | `"1Gi"` |  |
 | loki-stack.promtail.enabled | bool | `false` |  |
+| loki-stack.table_manager.retention_deletes_enabled | bool | `true` |  |
+| loki-stack.table_manager.retention_period | string | `"336h"` |  |
 | prometheus-snmp-exporter.enabled | bool | `true` |  |
 | prometheus.alertmanager.enabled | bool | `true` |  |
 | prometheus.enabled | bool | `true` |  |
