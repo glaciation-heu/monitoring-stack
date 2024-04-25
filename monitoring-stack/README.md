@@ -76,6 +76,9 @@ A Helm chart for Kubernetes
 | grafana.datasources."datasources.yaml".datasources[2].url | string | `"http://{{ tpl .Release.Name . }}-influxdb:8086"` |  |
 | grafana.datasources."datasources.yaml".datasources[2].user | string | `"admin"` |  |
 | grafana.enabled | bool | `true` |  |
+| grafana.livenessProbe.failureThreshold | int | `10` |  |
+| grafana.livenessProbe.initialDelaySeconds | int | `120` |  |
+| grafana.livenessProbe.timeoutSeconds | int | `60` |  |
 | grafana.resources.limits.cpu | int | `1` |  |
 | grafana.resources.limits.memory | string | `"512Mi"` |  |
 | grafana.resources.requests.cpu | int | `1` |  |
@@ -112,6 +115,11 @@ A Helm chart for Kubernetes
 | loki-stack.table_manager.retention_period | string | `"336h"` |  |
 | prometheus-snmp-exporter.enabled | bool | `true` |  |
 | prometheus.alertmanager.enabled | bool | `true` |  |
+| prometheus.alertmanager.persistence.size | string | `"1Gi"` |  |
+| prometheus.alertmanager.resources.limits.cpu | string | `"300m"` |  |
+| prometheus.alertmanager.resources.limits.memory | string | `"128Mi"` |  |
+| prometheus.alertmanager.resources.requests.cpu | string | `"300m"` |  |
+| prometheus.alertmanager.resources.requests.memory | string | `"128Mi"` |  |
 | prometheus.enabled | bool | `true` |  |
 | prometheus.extraScrapeConfigs | string | `"- job_name: 'prometheus-node-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*prometheus-node-exporter'\n    action: keep\n- job_name: 'idrac-exporter'\n  params:\n    \"target\": [\"10.14.2.7\"]\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*idrac-exporter'\n    action: keep\n- job_name: 'prometheus-snmp-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*prometheus-snmp-exporter'\n    action: keep\n- job_name: 'dcgm-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*dcgm-exporter'\n    action: keep\n- job_name: 'kepler'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: 'kepler'\n    action: keep\n"` |  |
 | prometheus.kube-state-metrics.enabled | bool | `true` |  |

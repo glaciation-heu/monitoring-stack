@@ -47,6 +47,16 @@ prometheus:
   alertmanager:
     ## If false, alertmanager will not be installed
     enabled: true
+    persistence:
+      size: 1Gi
+    resources:
+      limits:
+        cpu: 300m
+        memory: 128Mi
+      requests:
+        cpu: 300m
+        memory: 128Mi
+
 
   prometheus-node-exporter:
     enabled: true
@@ -95,7 +105,7 @@ grafana:
   sidecar:
     dashboards:
       enabled: true
-  # adminPassword: donkeyhot
+  # adminPassword: 
   resources:
    limits:
      cpu: 1
@@ -103,6 +113,10 @@ grafana:
    requests:
      cpu: 1
      memory: 256Mi
+  livenessProbe:
+    initialDelaySeconds: 120
+    timeoutSeconds: 60
+    failureThreshold: 10
 
   datasources:
     datasources.yaml:
