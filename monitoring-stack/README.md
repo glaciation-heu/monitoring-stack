@@ -17,6 +17,7 @@ A Helm chart for Kubernetes
 | https://prometheus-community.github.io/helm-charts | prometheus | 25.10.0 |
 | https://prometheus-community.github.io/helm-charts | prometheus-snmp-exporter | 5.1.0 |
 | https://sustainable-computing-io.github.io/kepler-helm-chart | kepler | 0.5.5 |
+| oci://registry-1.docker.io/bitnamicharts | kubernetes-event-exporter | 3.0.3 |
 
 ## Values
 
@@ -30,6 +31,7 @@ A Helm chart for Kubernetes
 | fluentd-sidecar-injector.sidecarInjector.fluentbit.dockerImage | string | `"ghcr.io/h3poteto/fluentd-sidecar-injector:latest"` |  |
 | fluentd-sidecar-injector.sidecarInjector.fluentbit.tagPrefix | string | `"sidecar-log"` |  |
 | fluentd-sidecar-injector.useCertManager | bool | `false` |  |
+| grafana.adminPassword | string | `"admin"` |  |
 | grafana.dashboardProviders."dashboardproviders.yaml".apiVersion | int | `1` |  |
 | grafana.dashboardProviders."dashboardproviders.yaml".providers[0].disableDeletion | bool | `true` |  |
 | grafana.dashboardProviders."dashboardproviders.yaml".providers[0].editable | bool | `true` |  |
@@ -109,6 +111,15 @@ A Helm chart for Kubernetes
 | influxdb.resources.requests.memory | string | `"4Gi"` |  |
 | kepler.enabled | bool | `false` |  |
 | kepler.image.tag | string | `"latest"` |  |
+| kubernetes-event-exporter.config.receivers[0].name | string | `"dump"` |  |
+| kubernetes-event-exporter.config.receivers[0].stdout.deDot | bool | `true` |  |
+| kubernetes-event-exporter.config.receivers[1].loki.streamLabels.stream | string | `"kube-events"` |  |
+| kubernetes-event-exporter.config.receivers[1].loki.url | string | `"http://{{ tpl .Release.Name . }}-loki:3100/loki/api/v1/push"` |  |
+| kubernetes-event-exporter.config.receivers[1].name | string | `"loki"` |  |
+| kubernetes-event-exporter.config.route.routes[0].match[0].receiver | string | `"dump"` |  |
+| kubernetes-event-exporter.config.route.routes[1].match[0].kind | string | `"Pod|Deployment|ReplicaSet|StatefullSet|PVC|Node"` |  |
+| kubernetes-event-exporter.config.route.routes[1].match[0].receiver | string | `"loki"` |  |
+| kubernetes-event-exporter.enabled | bool | `true` |  |
 | loki-stack.enabled | bool | `true` |  |
 | loki-stack.fluent-bit.enabled | bool | `true` |  |
 | loki-stack.loki.persistence.enabled | bool | `true` |  |
