@@ -3,7 +3,7 @@ entries:
   monitoring-stack:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-04-26T06:43:10.540878119Z"
+    created: "2024-04-30T13:58:31.587947888Z"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -12,11 +12,15 @@ entries:
     - condition: grafana.enabled
       name: grafana
       repository: https://grafana.github.io/helm-charts
-      version: 7.0.0
+      version: 7.3.9
     - condition: influxdb.enabled
-      name: influxdb
+      name: influxdb2
       repository: https://helm.influxdata.com/
-      version: 4.12.5
+      version: 2.1.2
+    - condition: telegraf.enabled
+      name: telegraf
+      repository: https://helm.influxdata.com/
+      version: 1.8.45
     - condition: fluentd-sidecar-injector.enabled
       name: fluentd-sidecar-injector
       repository: https://h3poteto.github.io/charts/stable
@@ -46,10 +50,10 @@ entries:
       repository: https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts
       version: 0.1.0
     description: A Helm chart for Kubernetes
-    digest: 158936e4e0ee976e5468b4d588ba8ab540f6266418ef03524c6bf0f676c960ff
+    digest: 471dab5f40e900b11f4330763313af3a1fca73f7bfdb8cee37c042ea6f9c52ac
     name: monitoring-stack
     type: application
     urls:
     - https://HIRO-MicroDataCenters-BV.github.io/monitoring-stack/dev/monitoring-stack-0.1.0.tgz
     version: 0.1.0
-generated: "2024-04-26T06:43:10.512251284Z"
+generated: "2024-04-30T13:58:31.558487435Z"
