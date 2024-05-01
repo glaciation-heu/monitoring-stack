@@ -1,17 +1,19 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus",
-      "value": "bced4410-bb2a-4f15-9e24-d8b47098f5d2"
-    }
-  ],
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
@@ -23,7 +25,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -65,7 +67,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "exp(\r\n\t0.65 * ln(\r\n\t\t1000 * (\r\n\t\t\tsum(rate(container_cpu_usage_seconds_total{pod=\"$pod\", mode!=\"idle\"}[5m]) * 100)\r\n\t\t) / (\r\n\t\t\tsum(irate(kepler_container_joules_total{pod_name=\"$pod\", mode=\"dynamic\"}[5m]))\r\n\t\t)\r\n\t) + 0.35 * ln(\r\n\t\t1000 * (\r\n\t\t\tsum(container_memory_usage_bytes{pod=\"$pod\"}) / sum(container_spec_memory_limit_bytes{pod=\"$pod\"}) * 100\r\n\t\t) / (\r\n\t\t\tsum(irate(kepler_container_joules_total{pod_name=\"$pod\", mode=\"dynamic\"}[5m]))\r\n\t\t)\r\n\t) + 0.05 * ln(\r\n\t\t1000 * (\r\n\t\t\tsum(\r\n\t\t\t\t(rate(container_fs_reads_bytes_total{pod=\"$pod\"}[5m]) or vector(1) + rate(container_fs_writes_bytes_total{pod=\"$pod\"}[5m])) or vector(1)\r\n\t\t\t) / (1024 * 1024)\r\n\t\t) / (\r\n\t\t\tsum(irate(kepler_container_joules_total{pod_name=\"$pod\", mode=\"dynamic\"}[5m]))\r\n\t\t)\r\n\t)\r\n) / 1000",
@@ -81,7 +83,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -156,7 +158,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "exp(\r\n\t0.65 * ln(\r\n\t\t1000 * (\r\n\t\t\tsum(rate(container_cpu_usage_seconds_total{pod=\"$pod\", mode!=\"idle\"}[5m]) * 100)\r\n\t\t) / (\r\n\t\t\tsum(irate(kepler_container_joules_total{pod_name=\"$pod\", mode=\"dynamic\"}[5m]))\r\n\t\t)\r\n\t) + 0.35 * ln(\r\n\t\t1000 * (\r\n\t\t\tsum(container_memory_usage_bytes{pod=\"$pod\"}) / sum(container_spec_memory_limit_bytes{pod=\"$pod\"}) * 100\r\n\t\t) / (\r\n\t\t\tsum(irate(kepler_container_joules_total{pod_name=\"$pod\", mode=\"dynamic\"}[5m]))\r\n\t\t)\r\n\t) + 0.05 * ln(\r\n\t\t1000 * (\r\n\t\t\tsum(\r\n\t\t\t\t(rate(container_fs_reads_bytes_total{pod=\"$pod\"}[5m]) or vector(1) + rate(container_fs_writes_bytes_total{pod=\"$pod\"}[5m])) or vector(1)\r\n\t\t\t) / (1024 * 1024)\r\n\t\t) / (\r\n\t\t\tsum(irate(kepler_container_joules_total{pod_name=\"$pod\", mode=\"dynamic\"}[5m]))\r\n\t\t)\r\n\t)\r\n) / 1000",
@@ -183,7 +185,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -230,7 +232,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "sum(rate(container_cpu_usage_seconds_total{pod=\"$pod\", mode!=\"idle\"}[5m]) * 100)",
@@ -246,7 +248,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -326,7 +328,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "rate(container_cpu_usage_seconds_total{pod=\"$pod\", mode!=\"idle\"}[5m]) * 100",
@@ -342,7 +344,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "gridPos": {
         "h": 24,
@@ -367,7 +369,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Set limit in helm chart",
       "fieldConfig": {
@@ -415,7 +417,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "sum(container_memory_usage_bytes{pod=\"$pod\"}) / sum(container_spec_memory_limit_bytes{pod=\"$pod\"}) * 100",
@@ -432,7 +434,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Set limit in helm chart",
       "fieldConfig": {
@@ -513,7 +515,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "container_memory_usage_bytes{pod=\"$pod\"} / container_spec_memory_limit_bytes{pod=\"$pod\"} * 100",
@@ -530,7 +532,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "",
       "fieldConfig": {
@@ -578,7 +580,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "sum(rate(container_fs_reads_bytes_total{pod=\"$pod\"}[5m]) + rate(container_fs_writes_bytes_total{pod=\"$pod\"}[5m])) / (1024 * 1024)",
@@ -595,7 +597,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "",
       "fieldConfig": {
@@ -676,7 +678,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "(rate(container_fs_reads_bytes_total{pod=\"$pod\"}[5m]) + rate(container_fs_writes_bytes_total{pod=\"$pod\"}[5m])) / (1024 * 1024)",
@@ -693,7 +695,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -739,7 +741,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "sum(irate(kepler_container_joules_total{pod_name=\"$pod\", mode=\"dynamic\"}[5m]))",
@@ -755,7 +757,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -830,7 +832,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
           "expr": "irate(kepler_container_joules_total{pod_name=\"$pod\", mode=\"dynamic\"}[5m])",
@@ -858,7 +860,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(pod)",
         "hide": 0,
