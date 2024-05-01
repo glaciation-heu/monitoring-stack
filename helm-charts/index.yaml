@@ -54,6 +54,61 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2024-05-01T07:41:52.583420553Z"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 25.10.0
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 7.3.9
+    - condition: influxdb.enabled
+      name: influxdb2
+      repository: https://helm.influxdata.com/
+      version: 2.1.2
+    - condition: telegraf.enabled
+      name: telegraf
+      repository: https://helm.influxdata.com/
+      version: 1.8.45
+    - condition: fluentd-sidecar-injector.enabled
+      name: fluentd-sidecar-injector
+      repository: https://h3poteto.github.io/charts/stable
+      version: 0.4.3
+    - condition: loki-stack.enabled
+      name: loki-stack
+      repository: https://grafana.github.io/helm-charts
+      version: 2.10.1
+    - condition: kubernetes-event-exporter.enabled
+      name: kubernetes-event-exporter
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 3.0.3
+    - condition: prometheus-snmp-exporter.enabled
+      name: prometheus-snmp-exporter
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 5.1.0
+    - condition: kepler.enabled
+      name: kepler
+      repository: https://sustainable-computing-io.github.io/kepler-helm-chart
+      version: 0.5.5
+    - condition: dcgm-exporter.enabled
+      name: dcgm-exporter
+      repository: https://nvidia.github.io/gpu-monitoring-tools/helm-charts
+      version: 2.4.0
+    - condition: idrac-exporter.enabled
+      name: idrac-exporter
+      repository: https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts
+      version: 0.1.0
+    description: A Helm chart for Kubernetes
+    digest: 8db5ef4f0ab593d811869dc11517d8bca6da1205a7af5d48f8ffa526702b6098
+    name: monitoring-stack
+    type: application
+    urls:
+    - https://HIRO-MicroDataCenters-BV.github.io/monitoring-stack/helm-charts/monitoring-stack-1.0.6.tgz
+    version: 1.0.6
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2024-05-01T06:58:16.692350456Z"
     dependencies:
     - condition: prometheus.enabled
@@ -346,4 +401,4 @@ entries:
     urls:
     - https://HIRO-MicroDataCenters-BV.github.io/monitoring-stack/helm-charts/monitoring-stack-1.0.0.tgz
     version: 1.0.0
-generated: "2024-05-01T06:58:16.662690766Z"
+generated: "2024-05-01T07:41:52.553888742Z"
