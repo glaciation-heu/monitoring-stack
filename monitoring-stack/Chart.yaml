@@ -30,13 +30,17 @@ dependencies:
     repository: https://prometheus-community.github.io/helm-charts
     condition: prometheus.enabled
   - name: grafana
-    version: 7.0.0
+    version: 7.3.9
     repository: https://grafana.github.io/helm-charts
     condition: grafana.enabled
-  - name: influxdb
-    version: 4.12.5
+  - name: influxdb2
+    version: 2.1.2
     repository: https://helm.influxdata.com/
     condition: influxdb.enabled
+  - name: telegraf
+    version: 1.8.45
+    repository: https://helm.influxdata.com/
+    condition: telegraf.enabled
   - name: fluentd-sidecar-injector
     version: 0.4.3
     repository: https://h3poteto.github.io/charts/stable

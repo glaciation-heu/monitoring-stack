@@ -8,10 +8,11 @@ A Helm chart for Kubernetes
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://grafana.github.io/helm-charts | grafana | 7.0.0 |
+| https://grafana.github.io/helm-charts | grafana | 7.3.9 |
 | https://grafana.github.io/helm-charts | loki-stack | 2.10.1 |
 | https://h3poteto.github.io/charts/stable | fluentd-sidecar-injector | 0.4.3 |
-| https://helm.influxdata.com/ | influxdb | 4.12.5 |
+| https://helm.influxdata.com/ | influxdb2 | 2.1.2 |
+| https://helm.influxdata.com/ | telegraf | 1.8.45 |
 | https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts | idrac-exporter | 0.1.0 |
 | https://nvidia.github.io/gpu-monitoring-tools/helm-charts | dcgm-exporter | 2.4.0 |
 | https://prometheus-community.github.io/helm-charts | prometheus | 25.10.0 |
@@ -71,12 +72,14 @@ A Helm chart for Kubernetes
 | grafana.datasources."datasources.yaml".datasources[1].type | string | `"loki"` |  |
 | grafana.datasources."datasources.yaml".datasources[1].url | string | `"http://{{ tpl .Release.Name . }}-loki:3100"` |  |
 | grafana.datasources."datasources.yaml".datasources[2].access | string | `"proxy"` |  |
-| grafana.datasources."datasources.yaml".datasources[2].jsonData.dbName | string | `"prometheus"` |  |
+| grafana.datasources."datasources.yaml".datasources[2].jsonData.defaultBucket | string | `"prometheus"` |  |
+| grafana.datasources."datasources.yaml".datasources[2].jsonData.organization | string | `"influxdata"` |  |
+| grafana.datasources."datasources.yaml".datasources[2].jsonData.timeout | int | `10` |  |
+| grafana.datasources."datasources.yaml".datasources[2].jsonData.version | string | `"Flux"` |  |
 | grafana.datasources."datasources.yaml".datasources[2].name | string | `"InfluxDB"` |  |
-| grafana.datasources."datasources.yaml".datasources[2].secureJsonData.password | string | `"admin"` |  |
+| grafana.datasources."datasources.yaml".datasources[2].secureJsonData.token | string | `"encrypted"` |  |
 | grafana.datasources."datasources.yaml".datasources[2].type | string | `"influxdb"` |  |
-| grafana.datasources."datasources.yaml".datasources[2].url | string | `"http://{{ tpl .Release.Name . }}-influxdb:8086"` |  |
-| grafana.datasources."datasources.yaml".datasources[2].user | string | `"admin"` |  |
+| grafana.datasources."datasources.yaml".datasources[2].url | string | `"http://{{ tpl .Release.Name . }}-influxdb2"` |  |
 | grafana.datasources."datasources.yaml".datasources[3].access | string | `"proxy"` |  |
 | grafana.datasources."datasources.yaml".datasources[3].jsonData.implementation | string | `"prometheus"` |  |
 | grafana.datasources."datasources.yaml".datasources[3].name | string | `"Alertmanager"` |  |
@@ -94,21 +97,19 @@ A Helm chart for Kubernetes
 | grafana.resources.requests.memory | string | `"256Mi"` |  |
 | grafana.sidecar.dashboards.enabled | bool | `true` |  |
 | idrac-exporter.enabled | bool | `false` |  |
-| influxdb.enabled | bool | `true` |  |
-| influxdb.env[0].name | string | `"INFLUXDB_DB"` |  |
-| influxdb.env[0].value | string | `"prometheus"` |  |
-| influxdb.env[1].name | string | `"INFLUXDB_ADMIN_USER"` |  |
-| influxdb.env[1].value | string | `"admin"` |  |
-| influxdb.env[2].name | string | `"INFLUXDB_ADMIN_PASSWORD"` |  |
-| influxdb.env[2].value | string | `"admin"` |  |
-| influxdb.image.pullPolicy | string | `"IfNotPresent"` |  |
-| influxdb.image.repository | string | `"influxdb"` |  |
-| influxdb.image.tag | string | `"1.8"` |  |
-| influxdb.persistence.size | string | `"32Gi"` |  |
-| influxdb.resources.limits.cpu | int | `4` |  |
-| influxdb.resources.limits.memory | string | `"4Gi"` |  |
-| influxdb.resources.requests.cpu | int | `3` |  |
-| influxdb.resources.requests.memory | string | `"4Gi"` |  |
+| influxdb2.adminUser.bucket | string | `"prometheus"` |  |
+| influxdb2.adminUser.organization | string | `"influxdata"` |  |
+| influxdb2.adminUser.password | string | `"encrypted"` |  |
+| influxdb2.adminUser.token | string | `"encrypted"` |  |
+| influxdb2.adminUser.user | string | `"admin"` |  |
+| influxdb2.enabled | bool | `true` |  |
+| influxdb2.env[0].name | string | `"INFLUXDB_HTTP_AUTH_ENABLED"` |  |
+| influxdb2.env[0].value | string | `"true"` |  |
+| influxdb2.persistence.size | string | `"32Gi"` |  |
+| influxdb2.resources.limits.cpu | int | `4` |  |
+| influxdb2.resources.limits.memory | string | `"6Gi"` |  |
+| influxdb2.resources.requests.cpu | int | `4` |  |
+| influxdb2.resources.requests.memory | string | `"6Gi"` |  |
 | kepler.enabled | bool | `false` |  |
 | kepler.image.tag | string | `"latest"` |  |
 | kubernetes-event-exporter.config.receivers[0].name | string | `"dump"` |  |
@@ -146,7 +147,7 @@ A Helm chart for Kubernetes
 | prometheus.server.global.scrape_interval | string | `"1m"` |  |
 | prometheus.server.global.scrape_timeout | string | `"11s"` |  |
 | prometheus.server.persistentVolume.size | string | `"32Gi"` |  |
-| prometheus.server.remoteWrite[0].url | string | `"http://{{ tpl .Release.Name . }}-influxdb:8086/api/v1/prom/write?db=prometheus&u=admin&p=admin"` |  |
+| prometheus.server.remoteWrite[0].url | string | `"http://{{ tpl .Release.Name . }}-telegraf:1234/receive"` |  |
 | prometheus.server.resources.limits.cpu | int | `1` |  |
 | prometheus.server.resources.limits.memory | string | `"2Gi"` |  |
 | prometheus.server.resources.requests.cpu | int | `1` |  |
@@ -154,6 +155,19 @@ A Helm chart for Kubernetes
 | prometheus.server.service.retention | string | `"15d"` |  |
 | prometheus.server.service.retentionSize | string | `"30Gb"` |  |
 | replicaCount | int | `1` |  |
+| telegraf.config.inputs[0].http_listener_v2.data_format | string | `"prometheusremotewrite"` |  |
+| telegraf.config.inputs[0].http_listener_v2.paths[0] | string | `"/receive"` |  |
+| telegraf.config.inputs[0].http_listener_v2.service_address | string | `":1234"` |  |
+| telegraf.config.outputs[0].influxdb_v2.bucket | string | `"prometheus"` |  |
+| telegraf.config.outputs[0].influxdb_v2.organization | string | `"influxdata"` |  |
+| telegraf.config.outputs[0].influxdb_v2.timeout | string | `"10s"` |  |
+| telegraf.config.outputs[0].influxdb_v2.token | string | `"encrypted"` |  |
+| telegraf.config.outputs[0].influxdb_v2.urls[0] | string | `"http://ms1-influxdb2"` |  |
+| telegraf.enabled | bool | `true` |  |
+| telegraf.resources.limits.cpu | string | `"300m"` |  |
+| telegraf.resources.limits.memory | string | `"512Mi"` |  |
+| telegraf.resources.requests.cpu | string | `"300m"` |  |
+| telegraf.resources.requests.memory | string | `"512Mi"` |  |
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs v1.13.1](https://github.com/norwoodj/helm-docs/releases/v1.13.1)

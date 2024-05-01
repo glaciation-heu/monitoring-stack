@@ -11,7 +11,7 @@ prometheus:
 
   server:
     remoteWrite:
-      - url: "http://{{ tpl .Release.Name . }}-influxdb:8086/api/v1/prom/write?db=prometheus&u=admin&p=admin"
+      - url: "http://{{ tpl .Release.Name . }}-telegraf:1234/receive"
 
     resources:
       limits:
@@ -139,13 +139,15 @@ grafana:
           access: proxy
         - name: InfluxDB
           type: influxdb
-          url: http://{{ tpl .Release.Name . }}-influxdb:8086
+          url: http://{{ tpl .Release.Name . }}-influxdb2
           access: proxy
-          user: admin                    
           secureJsonData:
-            password: admin
+            token: "encrypted"
           jsonData:
-            dbName: prometheus
+            defaultBucket: "prometheus"
+            organization: "influxdata"
+            timeout: 10
+            version: "Flux"
         - name: Alertmanager
           type: alertmanager
           access: proxy
@@ -195,29 +197,50 @@ grafana:
         url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
         token: ''            
 
-influxdb:
+telegraf:
   enabled: true
-  image:
-    repository: "influxdb"
-    tag: "1.8" # InfluxDB 2.0 is not directly supported with prometheus
-    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 300m
+    limits:
+      memory: 512Mi
+      cpu: 300m
+  config:
+    inputs:
+      - http_listener_v2:
+          service_address: ":1234"
+          paths: ["/receive"]
+          data_format: prometheusremotewrite
+    outputs:      
+      - influxdb_v2:
+          urls:
+            - "http://ms1-influxdb2"
+          token: encrypted
+          organization: "influxdata"
+          bucket: "prometheus"            
+          timeout: "10s"
+
+influxdb2:
+  enabled: true  
   persistence:
     size: 32Gi
   resources:
-   requests:
-     memory: 4Gi
-     cpu: 3
-   limits:
-     memory: 4Gi
-     cpu: 4
-
+    requests:
+      memory: 6Gi
+      cpu: 4
+    limits:
+      memory: 6Gi
+      cpu: 4
+  adminUser:
+    organization: "influxdata"
+    bucket: "prometheus"
+    user: "admin"
+    password: "encrypted"
+    token: "encrypted"
   env:
-    - name: INFLUXDB_DB
-      value: "prometheus"
-    - name: INFLUXDB_ADMIN_USER
-      value: "admin"
-    - name: INFLUXDB_ADMIN_PASSWORD
-      value: "admin"
+    - name: INFLUXDB_HTTP_AUTH_ENABLED
+      value: "true"
 
 fluentd-sidecar-injector:
   enabled: true
