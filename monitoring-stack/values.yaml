@@ -201,12 +201,18 @@ telegraf:
   enabled: true
   resources:
     requests:
-      memory: 512Mi
-      cpu: 300m
+      memory: 1Gi
+      cpu: 1
     limits:
-      memory: 512Mi
-      cpu: 300m
+      memory: 1Gi
+      cpu: 1
   config:
+    agent:
+      metric_batch_size: 50000
+      metric_buffer_limit: 200000
+      interval: "5s"
+      flush_interval: "5s"
+      debug: true
     inputs:
       - http_listener_v2:
           service_address: ":1234"
@@ -219,7 +225,9 @@ telegraf:
           token: encrypted
           organization: "influxdata"
           bucket: "prometheus"            
-          timeout: "10s"
+          timeout: "30s"
+          metric_batch_size: 50000  
+          metric_buffer_limit: 200000
 
 influxdb2:
   enabled: true  
