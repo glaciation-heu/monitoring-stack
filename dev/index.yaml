@@ -3,7 +3,7 @@ entries:
   monitoring-stack:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2024-05-01T09:14:04.271385431Z"
+    created: "2024-05-02T13:00:08.026084951Z"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -50,10 +50,10 @@ entries:
       repository: https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts
       version: 0.1.0
     description: A Helm chart for Kubernetes
-    digest: 82398b286a8305b28d2e3a2c35a916af41a5277f0e80352c38968bb77505b09f
+    digest: 49b0aebdef918e004206572153d9972ce8ed7940aad1b4e9179b06d0924c5068
     name: monitoring-stack
     type: application
     urls:
     - https://HIRO-MicroDataCenters-BV.github.io/monitoring-stack/dev/monitoring-stack-0.1.0.tgz
     version: 0.1.0
-generated: "2024-05-01T09:14:04.241020246Z"
+generated: "2024-05-02T13:00:07.996054153Z"
