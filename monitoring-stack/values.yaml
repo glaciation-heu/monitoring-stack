@@ -105,6 +105,7 @@ grafana:
   sidecar:
     dashboards:
       enabled: true
+      SCProvider: false
   adminPassword: admin
   resources:
    limits:
