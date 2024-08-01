@@ -69,3 +69,7 @@ dependencies:
     version: 0.1.0
     repository: https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts
     condition: idrac-exporter.enabled
+  - name: k8s-ephemeral-storage-metrics
+    version: 1.11.1
+    repository: https://jmcgrath207.github.io/k8s-ephemeral-storage-metrics/chart
+    condition: k8s-ephemeral-storage-metrics.enabled
