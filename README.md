@@ -31,7 +31,7 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 
 Add helm repo:
 ```console
-    helm repo add monitoring-charts https://hiro-microdatacenters-bv.github.io/monitoring-stack/helm-charts
+    helm repo add monitoring-charts https://glaciation-heu.github.io/monitoring-stack/helm-charts
 ```
 
 Get values yaml file and customize it for your environment:
