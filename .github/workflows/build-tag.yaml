@@ -1,4 +1,4 @@
-name: Build Helm Chart
+name: build-tag
 
 on:
   push:
