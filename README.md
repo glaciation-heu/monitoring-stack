@@ -64,3 +64,4 @@ Get grafana password
 ```console
 kubectl get secret <release name>-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
+
