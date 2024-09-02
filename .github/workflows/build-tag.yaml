@@ -1,0 +1,31 @@
+name: build-tag
+
+on:
+  push:
+    tags: '*'
+  workflow_dispatch:
+
+jobs:
+  build_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:    
+    - name: Set version
+      id: version
+      run: |
+        echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+        echo "${GITHUB_REF#refs/*/}"
+
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Publish Release Helm charts
+      uses: stefanprodan/helm-gh-pages@master
+      with:
+        token: ${{ github.token }}
+        charts_dir: "./"
+        target_dir: "./helm-charts"
+        chart_version: ${{ steps.version.outputs.RELEASE_VERSION }}

@@ -1,0 +1,25 @@
+name: build-helm-chart
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  build_pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Publish Dev Helm charts
+      uses: stefanprodan/helm-gh-pages@master
+      with:
+        token: ${{ github.token }}
+        charts_dir: "./"
+        target_dir: "./dev"
