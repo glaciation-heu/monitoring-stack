@@ -124,7 +124,7 @@ prometheus:
         - source_labels: [__param_target]
           target_label: instance
         - target_label: __address__
-          replacement: 10.244.0.67:9116  # The SNMP exporter's real hostname:port.      
+          replacement: monitoring-stack-prometheus-snmp-exporter.monitoring.svc.cluster.local:9116  # The SNMP exporter's real hostname:port.      
 
 grafana:
   enabled: true
