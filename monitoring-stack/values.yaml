@@ -60,15 +60,6 @@ prometheus:
 
   prometheus-node-exporter:
     enabled: true
-    params:
-    - module:
-      - apcups
-      name: PDU1
-      target: 10.14.2.3
-    - module:
-      - apcups
-      name: PDU2
-      target: 10.14.2.4
 
 
   extraScrapeConfigs: |
@@ -306,6 +297,15 @@ loki-stack:
 
 prometheus-snmp-exporter:
   enabled: true
+  params:
+    - module:
+      - apcups
+      name: PDU1
+      target: 10.14.2.3
+    - module:
+      - apcups
+      name: PDU2
+      target: 10.14.2.4
 
 kubernetes-event-exporter:
   enabled: true
