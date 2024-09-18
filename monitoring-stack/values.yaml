@@ -108,6 +108,7 @@ prometheus:
         action: keep
         regex: 'k8s-ephemeral-storage-metrics'
       - source_labels: [__meta_kubernetes_pod_ip]
+        replacement: '${1}:9100'
         target_label: __address__
     - job_name: 'snmp-pdus'
       static_configs:
