@@ -71,15 +71,22 @@ prometheus:
         regex: '.*prometheus-node-exporter'
         action: keep
     - job_name: 'idrac-exporter'
-      static_configs:
-        - targets: 
-          - 10.14.2.7
-          - 10.14.2.6
+      params:
+        "target": ["10.14.2.7"]
       kubernetes_sd_configs:
         - role: endpoints
       relabel_configs:
       - source_labels: [__meta_kubernetes_endpoints_name]
         regex: '.*idrac-exporter'
+        action: keep
+    - job_name: 'idrac-exporter02'
+      params:
+        "target": ["10.14.2.6"]
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_endpoints_name]
+        regex: '.*idrac-exporter02'
         action: keep
     - job_name: 'prometheus-snmp-exporter'
       kubernetes_sd_configs:
