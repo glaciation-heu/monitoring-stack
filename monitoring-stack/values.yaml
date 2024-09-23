@@ -73,18 +73,13 @@ prometheus:
     - job_name: 'idrac-exporter'
       static_configs:
         - targets: ['10.14.2.6', '10.14.2.7']
-      kubernetes_sd_configs:
-        - role: endpoints
       relabel_configs:
-        - source_labels: [__meta_kubernetes_endpoints_name]
-          regex: '.*idrac-exporter'
-          action: keep
         - source_labels: [__address__]
           target_label: __param_target
         - source_labels: [__param_target]
           target_label: instance
         - target_label: __address__
-          replacement: monitoring-stack-prometheus-idrac-exporter.monitoring.svc.cluster.local:9348  # The iDrac exporter's real hostname:port.      
+          replacement: monitoring-stack-idrac-exporter.monitoring.svc.cluster.local:9348  # The iDrac exporter's real hostname:port.      
     - job_name: 'prometheus-snmp-exporter'
       kubernetes_sd_configs:
         - role: endpoints
