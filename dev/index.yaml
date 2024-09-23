@@ -3,7 +3,7 @@ entries:
   monitoring-stack:
   - apiVersion: v2
     appVersion: 0.1.9
-    created: "2024-09-23T08:34:28.551925443Z"
+    created: "2024-09-23T08:39:51.814903251Z"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -54,10 +54,10 @@ entries:
       repository: https://jmcgrath207.github.io/k8s-ephemeral-storage-metrics/chart
       version: 1.11.1
     description: A Helm chart for Kubernetes
-    digest: 2edeca716b7a16cece9312c7f392db089cfd4e20386946f054d5e963371f40b8
+    digest: 1d699ff523336be45e85db523bdfda519b3e5296959dd4caa696478201c6bb30
     name: monitoring-stack
     type: application
     urls:
     - https://glaciation-heu.github.io/monitoring-stack/dev/monitoring-stack-0.1.0.tgz
     version: 0.1.0
-generated: "2024-09-23T08:34:28.517456572Z"
+generated: "2024-09-23T08:39:51.783947541Z"
