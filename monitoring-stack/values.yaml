@@ -72,7 +72,7 @@ prometheus:
         action: keep
     - job_name: 'idrac-exporter'
       params:
-        "target": ["10.14.2.7"]
+        "target": ["10.14.2.7","10.14.2.6"]
       kubernetes_sd_configs:
         - role: endpoints
       relabel_configs:
