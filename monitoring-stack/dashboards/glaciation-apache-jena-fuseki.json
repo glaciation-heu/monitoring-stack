@@ -1,35 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "10.4.1"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -49,13 +18,13 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 17,
   "links": [],
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Used volume space by Apache Jena Fiseki database. The metric is different from the requested volume space.",
       "fieldConfig": {
@@ -141,7 +110,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(kubelet_volume_stats_used_bytes{namespace=\"dkg-engine\", persistentvolumeclaim=\"jena-fuseki\"})",
+          "expr": "sum(kubelet_volume_stats_used_bytes{namespace=\"dkg-engine\", persistentvolumeclaim=\"jena-fuseki\"})   ",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -157,7 +126,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Used volume space by Apache Jena Fiseki database. The metric is different from the requested volume space.",
       "fieldConfig": {
@@ -180,7 +149,7 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
+            "insertNulls": 900000,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -198,6 +167,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -211,7 +181,7 @@
               }
             ]
           },
-          "unit": "bytes"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -243,13 +213,13 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "jena_fuseki_exporter_graphs_count",
+          "expr": "jena_fuseki_exporter_graphs_count ",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "Dataset slice",
           "range": true,
-          "refId": "B",
+          "refId": "A",
           "useBackend": false
         }
       ],
@@ -271,6 +241,6 @@
   "timezone": "browser",
   "title": "Apache Jena Fuseki",
   "uid": "be6i6k21gv20wa",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }
