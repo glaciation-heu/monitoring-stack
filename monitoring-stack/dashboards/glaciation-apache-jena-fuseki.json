@@ -145,7 +145,7 @@
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "Volume \"jena-fuseki\"",
+          "legendFormat": "Volume jena-fuseki",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -247,7 +247,7 @@
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "Dataset \"{{dataset}}\"",
+          "legendFormat": "Dataset slice",
           "range": true,
           "refId": "A",
           "useBackend": false
