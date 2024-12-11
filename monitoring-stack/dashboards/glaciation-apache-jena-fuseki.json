@@ -249,7 +249,7 @@
           "instant": false,
           "legendFormat": "Dataset slice",
           "range": true,
-          "refId": "A",
+          "refId": "B",
           "useBackend": false
         }
       ],
