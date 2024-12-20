@@ -193,7 +193,7 @@
         "y": 8
       },
       "id": 2,
-      "interval": "10m",
+      "interval": "5m",
       "options": {
         "legend": {
           "calcs": [],
@@ -236,13 +236,13 @@
     "list": []
   },
   "time": {
-    "from": "2024-12-13T18:28:49.538Z",
-    "to": "2024-12-13T18:52:40.397Z"
+    "from": "now-2d",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Apache Jena Fuseki",
   "uid": "be6i6k21gv20wa",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }
