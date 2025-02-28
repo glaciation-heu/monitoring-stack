@@ -1,6 +1,6 @@
 # monitoring-stack
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.9](https://img.shields.io/badge/AppVersion-0.1.9-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -14,6 +14,7 @@ A Helm chart for Kubernetes
 | https://helm.influxdata.com/ | influxdb2 | 2.1.2 |
 | https://helm.influxdata.com/ | telegraf | 1.8.45 |
 | https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts | idrac-exporter | 0.1.0 |
+| https://jmcgrath207.github.io/k8s-ephemeral-storage-metrics/chart | k8s-ephemeral-storage-metrics | 1.11.1 |
 | https://nvidia.github.io/gpu-monitoring-tools/helm-charts | dcgm-exporter | 2.4.0 |
 | https://prometheus-community.github.io/helm-charts | prometheus | 25.10.0 |
 | https://prometheus-community.github.io/helm-charts | prometheus-snmp-exporter | 5.1.0 |
@@ -95,6 +96,7 @@ A Helm chart for Kubernetes
 | grafana.resources.limits.memory | string | `"512Mi"` |  |
 | grafana.resources.requests.cpu | int | `1` |  |
 | grafana.resources.requests.memory | string | `"256Mi"` |  |
+| grafana.sidecar.dashboards.SCProvider | bool | `false` |  |
 | grafana.sidecar.dashboards.enabled | bool | `true` |  |
 | idrac-exporter.enabled | bool | `false` |  |
 | influxdb2.adminUser.bucket | string | `"prometheus"` |  |
@@ -110,6 +112,8 @@ A Helm chart for Kubernetes
 | influxdb2.resources.limits.memory | string | `"6Gi"` |  |
 | influxdb2.resources.requests.cpu | int | `4` |  |
 | influxdb2.resources.requests.memory | string | `"6Gi"` |  |
+| k8s-ephemeral-storage-metrics.enabled | bool | `true` |  |
+| k8s-ephemeral-storage-metrics.prometheus.enable | bool | `false` |  |
 | kepler.enabled | bool | `false` |  |
 | kepler.image.tag | string | `"latest"` |  |
 | kubernetes-event-exporter.config.receivers[0].name | string | `"dump"` |  |
@@ -140,7 +144,7 @@ A Helm chart for Kubernetes
 | prometheus.alertmanager.resources.requests.cpu | string | `"300m"` |  |
 | prometheus.alertmanager.resources.requests.memory | string | `"128Mi"` |  |
 | prometheus.enabled | bool | `true` |  |
-| prometheus.extraScrapeConfigs | string | `"- job_name: 'prometheus-node-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*prometheus-node-exporter'\n    action: keep\n- job_name: 'idrac-exporter'\n  params:\n    \"target\": [\"10.14.2.7\"]\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*idrac-exporter'\n    action: keep\n- job_name: 'prometheus-snmp-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*prometheus-snmp-exporter'\n    action: keep\n- job_name: 'dcgm-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*dcgm-exporter'\n    action: keep\n- job_name: 'kepler'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: 'kepler'\n    action: keep\n"` |  |
+| prometheus.extraScrapeConfigs | string | `"- job_name: 'prometheus-node-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*prometheus-node-exporter'\n    action: keep\n- job_name: 'idrac-exporter'\n  static_configs:\n    - targets: ['10.14.2.6', '10.14.2.7']\n  relabel_configs:\n    - source_labels: [__address__]\n      target_label: __param_target\n    - source_labels: [__param_target]\n      target_label: instance\n    - target_label: __address__\n      replacement: monitoring-stack-idrac-exporter.monitoring.svc.cluster.local:9348  # The iDrac exporter's real hostname:port.      \n- job_name: 'prometheus-snmp-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*prometheus-snmp-exporter'\n    action: keep\n- job_name: 'dcgm-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*dcgm-exporter'\n    action: keep\n- job_name: 'kepler'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: 'kepler'\n    action: keep\n- job_name: 'k8s-ephemeral-storage-metrics'\n  kubernetes_sd_configs:\n    - role: pod\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]\n    action: keep\n    regex: 'k8s-ephemeral-storage-metrics'\n  - source_labels: [__meta_kubernetes_pod_ip]\n    replacement: '${1}:9100'\n    target_label: __address__\n- job_name: 'snmp-pdus'\n  static_configs:\n    - targets:\n      - 10.14.2.3  # SNMP device PDU#1.\n      - 10.14.2.4 # SNMP device PDC#2.\n  metrics_path: /snmp\n  params:\n    auth: [public_v2]\n    module: [apcups]\n  relabel_configs:\n    - source_labels: [__address__]\n      target_label: __param_target\n    - source_labels: [__param_target]\n      target_label: instance\n    - target_label: __address__\n      replacement: monitoring-stack-prometheus-snmp-exporter.monitoring.svc.cluster.local:9116  # The SNMP exporter's real hostname:port.      \n- job_name: 'jena-fuseki-exporter'\n  scrape_interval: 10m\n  static_configs:\n  - targets:\n    - 'jena-fuseki-exporter.dkg-engine.svc.cluster.local'\n- job_name: 'jenkins'\n  metrics_path: '/prometheus'\n  static_configs:\n  - targets:\n    - 'jenkins.jenkins.svc.cluster.local:8080'\n"` |  |
 | prometheus.kube-state-metrics.enabled | bool | `true` |  |
 | prometheus.prometheus-node-exporter.enabled | bool | `true` |  |
 | prometheus.server.global.evaluation_interval | string | `"1m"` |  |
@@ -177,4 +181,4 @@ A Helm chart for Kubernetes
 | telegraf.resources.requests.memory | string | `"1Gi"` |  |
 
 ----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.13.1](https://github.com/norwoodj/helm-docs/releases/v1.13.1)
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)
