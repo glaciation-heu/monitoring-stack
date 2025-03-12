@@ -9,6 +9,11 @@ prometheus:
   enabled: true
   # Accessed by InfluxDB.
 
+  configmapReload:
+    prometheus:
+      extraArgs:
+        watched-dir: /etc/config/custom_rules
+
   server:
     remoteWrite:
       - url: "http://{{ tpl .Release.Name . }}-telegraf:1234/receive"
@@ -39,6 +44,19 @@ prometheus:
       ## How frequently to evaluate rules
       ##
       evaluation_interval: 1m
+
+    extraConfigmapMounts:
+      - name: prometheus-alerting-rules
+        mountPath: /etc/config/custom_rules
+        subPath: ""
+        configMap: prometheus-alerting-rules
+        readOnly: true
+
+  serverFiles:
+    prometheus.yml:
+      rule_files:
+        - /etc/config/custom_rules/*.yml
+
   kube-state-metrics:
     ## If false, kube-state-metrics sub-chart will not be installed
     ##

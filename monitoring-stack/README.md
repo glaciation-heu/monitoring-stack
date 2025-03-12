@@ -143,10 +143,16 @@ A Helm chart for Kubernetes
 | prometheus.alertmanager.resources.limits.memory | string | `"128Mi"` |  |
 | prometheus.alertmanager.resources.requests.cpu | string | `"300m"` |  |
 | prometheus.alertmanager.resources.requests.memory | string | `"128Mi"` |  |
+| prometheus.configmapReload.prometheus.extraArgs.watched-dir | string | `"/etc/config/custom_rules"` |  |
 | prometheus.enabled | bool | `true` |  |
 | prometheus.extraScrapeConfigs | string | `"- job_name: 'prometheus-node-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*prometheus-node-exporter'\n    action: keep\n- job_name: 'idrac-exporter'\n  static_configs:\n    - targets: ['10.14.2.6', '10.14.2.7']\n  relabel_configs:\n    - source_labels: [__address__]\n      target_label: __param_target\n    - source_labels: [__param_target]\n      target_label: instance\n    - target_label: __address__\n      replacement: monitoring-stack-idrac-exporter.monitoring.svc.cluster.local:9348  # The iDrac exporter's real hostname:port.      \n- job_name: 'prometheus-snmp-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*prometheus-snmp-exporter'\n    action: keep\n- job_name: 'dcgm-exporter'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: '.*dcgm-exporter'\n    action: keep\n- job_name: 'kepler'\n  kubernetes_sd_configs:\n    - role: endpoints\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_endpoints_name]\n    regex: 'kepler'\n    action: keep\n- job_name: 'k8s-ephemeral-storage-metrics'\n  kubernetes_sd_configs:\n    - role: pod\n  relabel_configs:\n  - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]\n    action: keep\n    regex: 'k8s-ephemeral-storage-metrics'\n  - source_labels: [__meta_kubernetes_pod_ip]\n    replacement: '${1}:9100'\n    target_label: __address__\n- job_name: 'snmp-pdus'\n  static_configs:\n    - targets:\n      - 10.14.2.3  # SNMP device PDU#1.\n      - 10.14.2.4 # SNMP device PDC#2.\n  metrics_path: /snmp\n  params:\n    auth: [public_v2]\n    module: [apcups]\n  relabel_configs:\n    - source_labels: [__address__]\n      target_label: __param_target\n    - source_labels: [__param_target]\n      target_label: instance\n    - target_label: __address__\n      replacement: monitoring-stack-prometheus-snmp-exporter.monitoring.svc.cluster.local:9116  # The SNMP exporter's real hostname:port.      \n- job_name: 'jena-fuseki-exporter'\n  scrape_interval: 10m\n  static_configs:\n  - targets:\n    - 'jena-fuseki-exporter.dkg-engine.svc.cluster.local'\n- job_name: 'jenkins'\n  metrics_path: '/prometheus'\n  static_configs:\n  - targets:\n    - 'jenkins.jenkins.svc.cluster.local:8080'\n"` |  |
 | prometheus.kube-state-metrics.enabled | bool | `true` |  |
 | prometheus.prometheus-node-exporter.enabled | bool | `true` |  |
+| prometheus.server.extraConfigmapMounts[0].configMap | string | `"prometheus-alerting-rules"` |  |
+| prometheus.server.extraConfigmapMounts[0].mountPath | string | `"/etc/config/custom_rules"` |  |
+| prometheus.server.extraConfigmapMounts[0].name | string | `"prometheus-alerting-rules"` |  |
+| prometheus.server.extraConfigmapMounts[0].readOnly | bool | `true` |  |
+| prometheus.server.extraConfigmapMounts[0].subPath | string | `""` |  |
 | prometheus.server.global.evaluation_interval | string | `"1m"` |  |
 | prometheus.server.global.scrape_interval | string | `"1m"` |  |
 | prometheus.server.global.scrape_timeout | string | `"11s"` |  |
@@ -158,6 +164,7 @@ A Helm chart for Kubernetes
 | prometheus.server.resources.requests.memory | string | `"1Gi"` |  |
 | prometheus.server.service.retention | string | `"15d"` |  |
 | prometheus.server.service.retentionSize | string | `"30Gb"` |  |
+| prometheus.serverFiles."prometheus.yml".rule_files[0] | string | `"/etc/config/custom_rules/*.yml"` |  |
 | replicaCount | int | `1` |  |
 | telegraf.config.agent.debug | bool | `true` |  |
 | telegraf.config.agent.flush_interval | string | `"5s"` |  |
