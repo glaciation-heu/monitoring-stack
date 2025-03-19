@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 17,
+  "id": 13,
   "links": [],
   "panels": [
     {
@@ -129,7 +129,7 @@
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
-      "description": "Used volume space by Apache Jena Fiseki database. The metric is different from the requested volume space.",
+      "description": "Number of graphs in Apache Jena Fuseki is collected by SPARQL query",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -243,6 +243,6 @@
   "timezone": "browser",
   "title": "Apache Jena Fuseki",
   "uid": "be6i6k21gv20wa",
-  "version": 6,
+  "version": 1,
   "weekStart": ""
 }
