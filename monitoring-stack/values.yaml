@@ -65,6 +65,26 @@ prometheus:
   alertmanager:
     ## If false, alertmanager will not be installed
     enabled: true
+
+    extraSecretMounts:
+      - name: secret-files
+        mountPath: /etc/secrets
+        subPath: ""
+        secretName: alertmanager-secrets
+        readOnly: true
+
+    config:
+      enabled: false  # Disable built-in config
+
+    extraVolumes:
+      - name: alertmanager-config-volume
+        configMap:
+          name: alertmanager-config
+
+    extraVolumeMounts:
+      - name: alertmanager-config-volume
+        mountPath: /etc/alertmanager
+
     persistence:
       size: 1Gi
     resources:

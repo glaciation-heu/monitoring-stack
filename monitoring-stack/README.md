@@ -137,7 +137,17 @@ A Helm chart for Kubernetes
 | loki-stack.table_manager.retention_deletes_enabled | bool | `true` |  |
 | loki-stack.table_manager.retention_period | string | `"336h"` |  |
 | prometheus-snmp-exporter.enabled | bool | `true` |  |
+| prometheus.alertmanager.config.enabled | bool | `false` |  |
 | prometheus.alertmanager.enabled | bool | `true` |  |
+| prometheus.alertmanager.extraSecretMounts[0].mountPath | string | `"/etc/secrets"` |  |
+| prometheus.alertmanager.extraSecretMounts[0].name | string | `"secret-files"` |  |
+| prometheus.alertmanager.extraSecretMounts[0].readOnly | bool | `true` |  |
+| prometheus.alertmanager.extraSecretMounts[0].secretName | string | `"alertmanager-secrets"` |  |
+| prometheus.alertmanager.extraSecretMounts[0].subPath | string | `""` |  |
+| prometheus.alertmanager.extraVolumeMounts[0].mountPath | string | `"/etc/alertmanager"` |  |
+| prometheus.alertmanager.extraVolumeMounts[0].name | string | `"alertmanager-config-volume"` |  |
+| prometheus.alertmanager.extraVolumes[0].configMap.name | string | `"alertmanager-config"` |  |
+| prometheus.alertmanager.extraVolumes[0].name | string | `"alertmanager-config-volume"` |  |
 | prometheus.alertmanager.persistence.size | string | `"1Gi"` |  |
 | prometheus.alertmanager.resources.limits.cpu | string | `"300m"` |  |
 | prometheus.alertmanager.resources.limits.memory | string | `"128Mi"` |  |
