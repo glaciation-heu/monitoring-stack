@@ -11,7 +11,7 @@ data:
       repeat_interval: 4h
       routes:
         - matchers:
-            - severity=~"warning|critical|none"
+            - severity=~"warning|critical"
           receiver: 'slack alert'
 
     receivers:
@@ -19,7 +19,7 @@ data:
       - name: 'slack alert'
         slack_configs:
           - api_url_file: /etc/secrets/slack-api-url
-            channel: '#alerting'
+            channel: '#gla-alerting'
             send_resolved: true
             title: |-
               {{`{{- if eq (index .Alerts 0).Status "resolved" -}}`}}
