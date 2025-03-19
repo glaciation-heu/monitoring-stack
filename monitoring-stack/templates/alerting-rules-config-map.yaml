@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-alerting-rules
+data:
+  {{- $files := .Files }}
+  {{- range $key, $value := .Files }}
+  {{- if hasPrefix "alerting-rules/" $key }} {{/* only when in alerting-rules/ */}}
+  {{ $key | trimPrefix "alerting-rules/" }}: |
+    {{- $files.Get $key | nindent 4 }} {{/* adapt $key as desired */}}
+  {{- end }}
+  {{- end }}

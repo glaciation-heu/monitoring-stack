@@ -9,6 +9,11 @@ prometheus:
   enabled: true
   # Accessed by InfluxDB.
 
+  configmapReload:
+    prometheus:
+      extraArgs:
+        watched-dir: /etc/config/custom_rules
+
   server:
     remoteWrite:
       - url: "http://{{ tpl .Release.Name . }}-telegraf:1234/receive"
@@ -39,6 +44,19 @@ prometheus:
       ## How frequently to evaluate rules
       ##
       evaluation_interval: 1m
+
+    extraConfigmapMounts:
+      - name: prometheus-alerting-rules
+        mountPath: /etc/config/custom_rules
+        subPath: ""
+        configMap: prometheus-alerting-rules
+        readOnly: true
+
+  serverFiles:
+    prometheus.yml:
+      rule_files:
+        - /etc/config/custom_rules/*.yml
+
   kube-state-metrics:
     ## If false, kube-state-metrics sub-chart will not be installed
     ##
@@ -47,6 +65,26 @@ prometheus:
   alertmanager:
     ## If false, alertmanager will not be installed
     enabled: true
+
+    extraSecretMounts:
+      - name: secret-files
+        mountPath: /etc/secrets
+        subPath: ""
+        secretName: alertmanager-secrets
+        readOnly: true
+
+    config:
+      enabled: false  # Disable built-in config
+
+    extraVolumes:
+      - name: alertmanager-config-volume
+        configMap:
+          name: alertmanager-config
+
+    extraVolumeMounts:
+      - name: alertmanager-config-volume
+        mountPath: /etc/alertmanager
+
     persistence:
       size: 1Gi
     resources:
@@ -132,6 +170,11 @@ prometheus:
       static_configs:
       - targets:
         - 'jena-fuseki-exporter.dkg-engine.svc.cluster.local'
+    - job_name: 'jenkins'
+      metrics_path: '/prometheus'
+      static_configs:
+      - targets:
+        - 'jenkins.jenkins.svc.cluster.local:8080'
 grafana:
   enabled: true
   sidecar:
@@ -228,7 +271,7 @@ grafana:
         token: ''
       k8s-views-pods:
         url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
-        token: ''            
+        token: ''
 
 telegraf:
   enabled: true
@@ -251,19 +294,19 @@ telegraf:
           service_address: ":1234"
           paths: ["/receive"]
           data_format: prometheusremotewrite
-    outputs:      
+    outputs:
       - influxdb_v2:
           urls:
             - "http://ms1-influxdb2"
           token: encrypted
           organization: "influxdata"
-          bucket: "prometheus"            
+          bucket: "prometheus"
           timeout: "30s"
-          metric_batch_size: 50000  
+          metric_batch_size: 50000
           metric_buffer_limit: 200000
 
 influxdb2:
-  enabled: true  
+  enabled: true
   persistence:
     size: 32Gi
   resources:
@@ -330,7 +373,7 @@ kubernetes-event-exporter:
             - receiver: dump
         - match:
             - kind: "Pod|Deployment|ReplicaSet|StatefullSet|PVC|Node"
-              receiver: "loki"  
+              receiver: "loki"
     receivers:
     - name: "dump"
       stdout:

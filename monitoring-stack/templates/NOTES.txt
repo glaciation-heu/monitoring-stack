@@ -1,4 +1,9 @@
-1. Get the application URL by running these commands:
-2. get Grafana password for username admin
+To make use of Alertmanager slack alerts, you need to create a secret with the slack api token manually.
+You can create the secret by running the following command with actual API key in the same namespace where the monitoring stack is deployed:
 
+kubectl create secret generic alertmanager-secrets \
+  -n {{ tpl .Release.Namespace . }} \
+  --from-literal="slack-api-url=https://hooks.slack.com/services/X03R2856W/A14T19TKEGM/...."
+
+Grafana password for username admin:
 kubectl get secret --namespace {{ tpl .Release.Namespace . }} {{ tpl .Release.Name . }}-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo

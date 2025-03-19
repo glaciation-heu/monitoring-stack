@@ -38,6 +38,14 @@ Get values yaml file and customize it for your environment:
 ```console
     helm show values monitoring-charts/monitoring-stack > values.yaml
 ```
+Please notice that you need to create a secret with a Slack Webhook url manually, otherwise the alertmanager will not be able to work properly. 
+You can create the secret with the following command, but you need to replace the `your/webhook/url` with your actual Slack Webhook url, and the `name-of-namespace-of-monitoring-stack` with the namespace where the monitoring stack is installed:
+
+```console
+    kubectl create secret generic alertmanager-secrets \
+  -n name-of-namespace-of-monitoring-stack \
+  --from-literal="slack-api-url=https://hooks.slack.com/services/your/webhook/url"
+```
 
 Install the monitoring stack:
 ```console
