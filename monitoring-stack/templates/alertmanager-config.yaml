@@ -32,6 +32,9 @@ data:
               *Severity:* `{{`{{ .Labels.severity }}`}}` :fire: {{`{{ .Labels.responsible }}`}}
               *Summary:* {{`{{ .Annotations.summary }}`}}
               *Description:* {{`{{ .Annotations.description }}`}}
+              {{`{{- if .Labels.cluster }}`}}
+              *Cluster:* `{{`{{ .Labels.cluster }}`}}`
+              {{`{{- end }}`}}
               {{`{{- if .Labels.location }}`}}
               *Location:* `{{`{{ .Labels.location }}`}}`
               {{`{{- else if .Labels.instance }}`}}
