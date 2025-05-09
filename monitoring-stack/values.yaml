@@ -341,15 +341,15 @@ loki-stack:
   enabled: true
   table_manager:
     retention_deletes_enabled: true
-    retention_period: 336h
+    retention_period: 168h
   loki:
     resources:
       limits:
-        cpu: 1
-        memory: 2Gi
+        cpu: 4
+        memory: 8Gi
       requests:
-        cpu: 1
-        memory: 1Gi
+        cpu: 4
+        memory: 8Gi
     persistence:
       enabled: true
       size: 32Gi
