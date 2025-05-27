@@ -1,22 +1,22 @@
  groups:
   - name: argocd
     rules:
-    - alert: ArgoCDAppOutOfSync
-      expr: argocd_app_info{sync_status!="Synced"} == 1
-      for: 5m
-      labels:
-        severity: warning
-      annotations:
-        summary: "{{ $labels.name }} is OutOfSync"
-        description: >
-          Application {{ $labels.name }} (project {{ $labels.project }})
-          has been OutOfSync for more than 5 minutes.
-    - alert: ArgoCDAppUnhealthy
-      expr: argocd_app_info{health_status!="Healthy"} == 1
-      for: 5m
-      labels:
-        severity: critical
-      annotations:
-        summary: "{{ $labels.name }} is {{ $labels.health_status }}"
-        description: >
-          Application {{ $labels.name }} is {{ $labels.health_status }}.
+      - alert: ArgoCDAppOutOfSync
+        expr: argocd_app_info{sync_status!="Synced"} == 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.name }} is OutOfSync"
+          description: >
+            Application {{ $labels.name }} (project {{ $labels.project }})
+            has been OutOfSync for more than 5 minutes.
+      - alert: ArgoCDAppUnhealthy
+        expr: argocd_app_info{health_status!="Healthy"} == 1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.name }} is {{ $labels.health_status }}"
+          description: >
+            Application {{ $labels.name }} is {{ $labels.health_status }}.
