@@ -54,6 +54,65 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 0.1.9
+    created: "2025-05-27T11:02:44.558702976Z"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 25.10.0
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 7.3.9
+    - condition: influxdb.enabled
+      name: influxdb2
+      repository: https://helm.influxdata.com/
+      version: 2.1.2
+    - condition: telegraf.enabled
+      name: telegraf
+      repository: https://helm.influxdata.com/
+      version: 1.8.45
+    - condition: fluentd-sidecar-injector.enabled
+      name: fluentd-sidecar-injector
+      repository: https://h3poteto.github.io/charts/stable
+      version: 0.4.3
+    - condition: loki-stack.enabled
+      name: loki-stack
+      repository: https://grafana.github.io/helm-charts
+      version: 2.10.1
+    - condition: kubernetes-event-exporter.enabled
+      name: kubernetes-event-exporter
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 3.0.3
+    - condition: prometheus-snmp-exporter.enabled
+      name: prometheus-snmp-exporter
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 5.1.0
+    - condition: kepler.enabled
+      name: kepler
+      repository: https://sustainable-computing-io.github.io/kepler-helm-chart
+      version: 0.5.5
+    - condition: dcgm-exporter.enabled
+      name: dcgm-exporter
+      repository: https://nvidia.github.io/gpu-monitoring-tools/helm-charts
+      version: 2.4.0
+    - condition: idrac-exporter.enabled
+      name: idrac-exporter
+      repository: https://hiro-microdatacenters-bv.github.io/idrac-exporter/helm-charts
+      version: 0.1.0
+    - condition: k8s-ephemeral-storage-metrics.enabled
+      name: k8s-ephemeral-storage-metrics
+      repository: https://jmcgrath207.github.io/k8s-ephemeral-storage-metrics/chart
+      version: 1.11.1
+    description: A Helm chart for Kubernetes
+    digest: e2e55607a9d89b001dbd16e19f66a722bbba48fc0a6c4229a074fc4dfc646f69
+    name: monitoring-stack
+    type: application
+    urls:
+    - https://glaciation-heu.github.io/monitoring-stack/helm-charts/monitoring-stack-v1.0.43.tgz
+    version: v1.0.43
+  - apiVersion: v2
+    appVersion: 0.1.9
     created: "2025-05-27T10:47:51.259930691Z"
     dependencies:
     - condition: prometheus.enabled
@@ -2631,4 +2690,4 @@ entries:
     urls:
     - https://glaciation-heu.github.io/monitoring-stack/helm-charts/monitoring-stack-v0.1.25.tgz
     version: v0.1.25
-generated: "2025-05-27T10:47:51.226638678Z"
+generated: "2025-05-27T11:02:44.526622998Z"
